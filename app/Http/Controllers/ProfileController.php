@@ -16,9 +16,16 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        if (Auth::guard('admin')->check()) {
+            return view('admin.profile.edit', [
+                'user' => $request->user(),
+            ]);
+        } else {
+            return view('profile.edit', [
+                'user' => $request->user(),
+            ]);
+        }
+        
     }
 
     /**

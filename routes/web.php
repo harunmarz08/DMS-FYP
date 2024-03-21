@@ -18,17 +18,30 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Admin 
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware(['auth:admin', 'verified'])->name('admin.dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
+    Route::patch('/admin/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
+    Route::delete('/admin/profile', [ProfileController::class, 'destroy'])->name('admin.profile.destroy');
+});
+    // Admin
+
 
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
 Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
@@ -38,3 +51,5 @@ Route::put('/product/{product}/update', [ProductController::class, 'update'])->n
 Route::delete('/product/{product}/delete', [ProductController::class, 'delete'])->name('product.delete');
 
 require __DIR__.'/auth.php';
+
+require __DIR__.'/adminauth.php';
