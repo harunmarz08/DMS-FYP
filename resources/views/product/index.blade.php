@@ -10,6 +10,11 @@
 
 <body>
     <h1>Index</h1>
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <table border="1">
         <tr>
@@ -31,7 +36,7 @@
                 <a href="{{ route('product.edit', ['product' => $product]) }}">Edit</a>
             </td>
             <td>
-                <form action="{{ route('prodcomposer require laravel/breeze --devuct.delete', ['product' => $product]) }}" method="post">
+                <form action="{{ route('product.delete', ['product' => $product]) }}" method="post">
                     @csrf
                     @method('delete')
                     <input type="submit" value="Delete">
