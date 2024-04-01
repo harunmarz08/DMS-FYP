@@ -20,6 +20,7 @@ class ManageUserController extends Controller
      */
     public function index()
     {
+
         $users = User::all();
         return view('admin.manage-users.list', ['users' => $users]);
     }
@@ -51,7 +52,7 @@ class ManageUserController extends Controller
 
         // event(new Registered($user));
 
-        return redirect(route('admin.manage-users.list'))->with('success',"user Created Successfully");
+        return redirect(route('admin.manage-users.list'))->with('status', 'user-created');
     }
 
     /**
@@ -78,7 +79,7 @@ class ManageUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
         ]);
         
         $data = [
@@ -92,7 +93,7 @@ class ManageUserController extends Controller
 
         $user->update($data);
 
-        return redirect(route('admin.manage-users.partials.edit-user', ['user' => $user]))->with('status', 'user-updated');
+        return redirect(route('admin.manage-users.list'))->with('status', 'user-updated');
     }
 
     /**
@@ -104,6 +105,6 @@ class ManageUserController extends Controller
 
         $user->delete();
 
-        return redirect(route('admin.manage-users.list'))->with('success',"user Deleted Successfully");
+        return redirect(route('admin.manage-users.list'))->with('status', 'user-deleted');
     }
 }

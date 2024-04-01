@@ -11,7 +11,7 @@
     </x-slot>
     <div>admin edit user</div>
 
-    <div class="py-12">
+    <div class="pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <div>
@@ -24,11 +24,11 @@
                 @endif
             </div>
 
-            @if (session('status') === 'user-updated')
+            {{-- @if (session('status') === 'user-updated')
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
                     class="text-sm text-gray-800 bg-green-400 border border-green-400 rounded-md p-2">
                     {{ __('Saved.') }}</p>
-            @endif
+            @endif --}}
 
             <form action="{{ route('admin.manage-users.update', ['user' => $user]) }}" method="post">
                 @csrf

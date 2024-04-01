@@ -4,6 +4,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ManageUserController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\ProjectTaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,8 +52,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Project
+    Route::get('/project', [ProjectTaskController::class, 'index'])->name('project.index');
+    Route::post('/project/store', [ProjectTaskController::class, 'store'])->name('project.store');
+    Route::get('/project/{project}', [ProjectTaskController::class, 'show'])->name('project.tasks');
+    Route::post('/project/task-assignment', [ProductController::class, 'assign'])->name('project.assign');
 });
 
+// Test
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
 Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
 Route::post('/product', [ProductController::class, 'insert'])->name('product.insert');
