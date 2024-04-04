@@ -56,8 +56,9 @@ Route::middleware('auth')->group(function () {
     // Project
     Route::get('/project', [ProjectTaskController::class, 'index'])->name('project.index');
     Route::post('/project/store', [ProjectTaskController::class, 'store'])->name('project.store');
-    Route::get('/project/{project}', [ProjectTaskController::class, 'show'])->name('project.tasks');
-    Route::post('/project/task-assignment', [ProductController::class, 'assign'])->name('project.assign');
+    Route::get('/project/{project}', [ProjectTaskController::class, 'showTasks'])->name('project.tasks');
+    Route::get('/assignment', [ProjectTaskController::class, 'showAssignments'])->name('project.assignment.assigned-tasks');
+    Route::post('/project/task-{task}-assignment/', [ProjectTaskController::class, 'assign'])->name('project.assign');
 });
 
 // Test

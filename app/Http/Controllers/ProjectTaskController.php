@@ -6,6 +6,8 @@ use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AdminAuth;
 use Illuminate\Http\Request;
 
 
@@ -32,9 +34,15 @@ class ProjectTaskController extends Controller
     /**
      * Assign a User with role 1 to a Task.
      */
-    public function assign(Request $request)
+    public function assign(Request $request, Task $task)
     {
-        //
+        $validatedData = $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $task->update(['user_id' => $validatedData['user_id']]);
+
+        return redirect(route('project.tasks'))->with('status', 'task-assigned');
     }
 
     /**
@@ -72,14 +80,22 @@ class ProjectTaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
+    public function showTasks(Project $project)
     {
         $tasks = Task::where('project_id', $project->id)->get();
         $users = User::where('role', '1')->get();
-        return view('project.tasks', ['tasks' => $tasks, 'users' => $users]);
+        return view('project.tasks', ['tasks' => $tasks, 'users' => $users, 'project' => $project]);
     }
 
-
+    /**
+     * Display the specified resource.
+     */
+    public function showAssignments()
+    {
+        $user =  Auth::user();
+        $tasks = Task::where('user_id', $user->id)->get();
+        return view('project.assignment.assigned-tasks', ['tasks' => $tasks]);
+    }
     /**
      * Show the form for editing the specified resource.
      */

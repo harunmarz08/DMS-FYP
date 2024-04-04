@@ -17,7 +17,7 @@
                             @foreach($tasks as $task)
                             <x-directory color="white" class="grid grid-cols-3">
                                 <div class="">
-                                    <div>{{ $task->name }}</div>
+                                    <div>{{ $task->id }}</div>
                                     <x-secondary-button class="ms-4">
                                         {{ __('Download Template') }}
                                     </x-secondary-button>
@@ -73,43 +73,7 @@
                                         </x-modal>
                                     </div>
                                     <div class="content-center">
-                                        <x-primary-button x-data=""
-                                            x-on:click.prevent="$dispatch('open-modal', 'assign-document-{{$task->id}}')">{{ __('Assign') }}
-                                        </x-primary-button>
-                                        <x-modal name="assign-document-{{$task->id}}" focusable>
-                                            <form method="post" action="" class="p-6">
-                                                @csrf
-                                                @method('')
-
-                                                <h2 class="text-lg font-medium text-gray-900 py-2">
-                                                    {{ __('Assign task') }}
-                                                </h2>
-
-                                                <div class="flex flex-col">
-                                                    <div class="flex justify-between mb-2">
-                                                        <span class="font-bold">Owner:</span>
-                                                        <span class="ml-2">orange@example.com, </span>
-                                                    </div>
-                                                </div>
-                                                <select name="user_id" class="block mt-1 w-50">
-                                                    <option value="default">-- Select User --</option>
-                                                    @foreach($users as $user)
-                                                        <option value="{{ $user->id }}">{{ $user->email }}</option>
-                                                    @endforeach
-                                                </select>
-                                                
-
-                                                <div class="mt-6 flex justify-end">
-                                                    <x-secondary-button x-on:click="$dispatch('close')">
-                                                        {{ __('Cancel') }}
-                                                    </x-secondary-button>
-
-                                                    <x-primary-button class="ms-3">
-                                                        {{ __('Send') }}
-                                                    </x-primary-button>
-                                                </div>
-                                            </form>
-                                        </x-modal>
+                                        
                                     </div>
                                 </div>
                             </x-directory>
