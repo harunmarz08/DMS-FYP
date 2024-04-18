@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'created_by'];
 
     public function tasks()
     {

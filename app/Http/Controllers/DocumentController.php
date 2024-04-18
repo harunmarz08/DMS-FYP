@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Project;
 use App\Models\Document;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        return view('document.index');
+        
     }
 
     /**
@@ -38,7 +39,7 @@ class DocumentController extends Controller
      */
     public function show(Document $document)
     {
-        return view('document.document-appendix');
+        
     }
 
     /**

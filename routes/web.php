@@ -5,7 +5,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\ProjectTaskController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\AssignmentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,16 +51,27 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    // Profile 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Project
-    Route::get('/project', [ProjectTaskController::class, 'index'])->name('project.index');
-    Route::post('/project/store', [ProjectTaskController::class, 'store'])->name('project.store');
-    Route::get('/project/{project}', [ProjectTaskController::class, 'showTasks'])->name('project.tasks');
-    Route::get('/assignment', [ProjectTaskController::class, 'showAssignments'])->name('project.assignment.assigned-tasks');
-    Route::post('/project/task-{task}-assignment/', [ProjectTaskController::class, 'assign'])->name('project.assign');
+    Route::get('/project', [ProjectController::class, 'index'])->name('project.index');
+    Route::post('/project/create', [ProjectController::class, 'createProject'])->name('project.create');
+    Route::delete('/project/{project}/delete', [ProjectController::class, 'destroy'])->name('project.destroy');
+
+    // Task 
+    Route::get('/{project}/tasks', [TaskController::class, 'index'])->name('project.tasks.index');
+    Route::post('/{project}/tasks/create', [TaskController::class, 'create'])->name('task.create');
+    Route::put('/{project}/{task}/update', [TaskController::class, 'update'])->name('task.update');
+    Route::post('/{project}/{task}/upload', [TaskController::class, 'store'])->name('task.upload');
+    Route::post('/tasks/assigning-{task}-{project}', [TaskController::class, 'assign'])->name('task.assign');
+    Route::post('/tasks/unassigning-{task}-{project}', [TaskController::class, 'unassign'])->name('task.unassign');
+    Route::delete('/{project}/{task}/delete', [TaskController::class, 'destroy'])->name('task.destroy');
+
+    // Assignment 
+    Route::get('/assignment', [AssignmentController::class, 'showAssignments'])->name('project.assignment.assigned-tasks');
 });
 
 // Test

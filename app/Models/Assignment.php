@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Assignment extends Model
 {
-    use HasFactory;
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
 }

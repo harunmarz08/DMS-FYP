@@ -30,12 +30,13 @@
             <div class="py-2 flex justify-between">
                 <div class="py-2 ">
                     <form action="#" method="post" class="flex items-center">
-                        <x-text-input id="search" class="block w-auto" type="text" name="search" autofocus autocomplete="off" placeholder="Search" />
+                        <x-text-input id="search" class="block w-auto" type="text" name="search" autofocus
+                            autocomplete="off" placeholder="Search" />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                        <x-button-link  class="py-3">a</x-button-link>
-                    </form>  
+                        <x-button-link class="py-3">a</x-button-link>
+                    </form>
                 </div>
-    
+
                 <div class="py-2">
                     <x-button-link :href="route('admin.manage-users.partials.create-user')">Add User</x-button-link>
                 </div>
@@ -43,29 +44,35 @@
             <div class="flex justify-center overflow-x-auto">
                 <x-table.table :headers="[
                     'ID',
-                    ['name' => 'Name', 'align' => 'right'],
+                    ['name' => 'Name', 'align' => 'left'],
                     'Email',
-                    'Password',
-                    'Created_at',
-                    'Updated_at',
+                    'Role',
+                    ['name' => 'Created at', 'align' => 'right'],
+                    ['name' => 'Updated at', 'align' => 'right'],
                 ]" class="">
                     @foreach ($users as $user)
                         <tr class="border-b">
                             <x-table.td>{{ $user->id }}</x-table.td>
                             <x-table.td>{{ $user->name }}</x-table.td>
                             <x-table.td>{{ $user->email }}</x-table.td>
-                            <x-table.td>placeholder</x-table.td>
+                            <x-table.td>{{ $user->role == 0 ? 'Director' : ($user->role == -1 ? 'Default' : 'User') }}
+                            </x-table.td>
                             <x-table.td align="right">{{ $user->created_at }}</x-table.td>
                             <x-table.td align="right">{{ $user->updated_at }}</x-table.td>
-                            <x-table.td>
-                                <x-button-link :href="route('admin.manage-users.partials.edit-user', ['user' => $user])" :active="request()->routeIs('admin.manage-user.partials.edit-user')">
-                                    Edit
-                                </x-button-link>
+                            <x-table.td align="center">
+                                @if ($user->role !== -1)
+                                    <x-button-link :href="route('admin.manage-users.partials.edit-user', ['user' => $user])" :active="request()->routeIs('admin.manage-user.partials.edit-user')">
+                                        Edit
+                                    </x-button-link>
+                                @endif
                             </x-table.td>
-                            <x-table.td>
-                                <x-danger-button x-data=""
-                                    x-on:click.prevent="$dispatch('open-modal', 'confirm-user-{{ $user->id }}-deletion')">{{ __('Delete Account') }}
-                                </x-danger-button>
+                            <x-table.td align="center">
+                                @if ($user->role !== -1)
+                                    <x-danger-button x-data=""
+                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-{{ $user->id }}-deletion')">
+                                        {{ __('Delete Account') }}
+                                    </x-danger-button>
+                                @endif
                                 <x-modal name="confirm-user-{{ $user->id }}-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
                                     <form method="post"
                                         action="{{ route('admin.manage-users.delete-user', ['user' => $user]) }}"
