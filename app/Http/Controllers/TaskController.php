@@ -21,12 +21,12 @@ class TaskController extends Controller
         $tasks = Task::where('project_id', $project->id)->get();
         $users = User::where('role', '1')->get();
         // $documents = Document::where('task_id', $tasks->id)->get();
-        $documents = Document::all();
-        
+        $documents = Document::whereIn('task_id', $tasks->pluck('id'))->get();
+
 
         Session::put('tasks', $tasks->isEmpty() ? collect([]) : $tasks);
         Session::put('users', $users);
-        Session::put('documents', $documents);
+        Session::put('documents', $documents->isEmpty() ? collect([]) : $documents);
 
         return view('project.tasks.index', ['project' => $project]);
     }
@@ -57,7 +57,7 @@ class TaskController extends Controller
             Storage::makeDirectory($taskDirectory);
         }
 
-        return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'Tasks created successfully.');
+        return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'task-created');
     }
 
     /**
@@ -90,8 +90,9 @@ class TaskController extends Controller
             ]);
 
             return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'file_uploaded');
+        } else {
+            return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'upload_fail');
         }
-        return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'upload_fail');
     }
 
     /**

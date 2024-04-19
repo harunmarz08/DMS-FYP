@@ -31,6 +31,11 @@
             </div>
         @break
 
+        @default
+            <div></div>
+    @endswitch
+
+    @switch(session('status'))
         @case('file-uploaded')
             <div class="max-w-8xl">
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
@@ -50,7 +55,7 @@
         @break
 
         @default
-            {{-- Handle default case --}}
+            <div></div>
     @endswitch
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -174,10 +179,10 @@
                                                     <select id="version_{{ $task->id }}"
                                                         class="block py-2.5 px-3 mx-5 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
                                                         <option value="default">Choose</option>
-                                                        @foreach (session('documents') as $document)
+                                                        @foreach (session('documents')->where('task_id', $task->id) as $document)
                                                             <option name="version_{{ $task->id }}"
                                                                 value="{{ $document->id }}">
-                                                               {{'v_'}}{{ $document->version }}
+                                                                {{ 'v_' }}{{ $document->version }}
                                                             </option>
                                                         @endforeach
                                                     </select>
