@@ -7,8 +7,10 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\Document;
 use App\Http\Controllers\Controller;
+use App\Notifications\NewTaskUpload; 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -72,6 +74,9 @@ class TaskController extends Controller
         $file = $request->file('document');
 
         if ($request->hasFile('document') && $request->file('document')->isValid()) {
+
+            $users = User::where('role', '0')->get(); // Adjust this query to get the users you want to notify
+            Notification::send($users, new NewTaskUpload($task,$project));
 
             $latestDocument = Document::where('task_id', $task->id)->latest()->first();
 

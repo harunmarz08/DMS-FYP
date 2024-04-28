@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AssignmentController;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,7 @@ Route::middleware('auth')->group(function () {
 
     // Project
     Route::get('/project', [ProjectController::class, 'index'])->name('project.index');
+    Route::get('/notification', [ProjectController::class, 'notification']);
     Route::post('/project/create', [ProjectController::class, 'createProject'])->name('project.create');
     Route::delete('/project/{project}/delete', [ProjectController::class, 'destroy'])->name('project.destroy');
 
@@ -72,6 +74,11 @@ Route::middleware('auth')->group(function () {
 
     // Assignment 
     Route::get('/assignment', [AssignmentController::class, 'showAssignments'])->name('project.assignment.assigned-tasks');
+
+    // Notification 
+    Route::post('/notifications/markasread', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/markasunread', [NotificationController::class, 'markAsUnread'])->name('notifications.unread');
+
 });
 
 // Test

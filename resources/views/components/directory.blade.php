@@ -7,6 +7,7 @@
             'red' => 'bg-red-500',
             'green' => 'bg-green-500',
             'yellow' => 'bg-yellow-500',
+            'gray' => 'bg-gray-100 ',
         ][$color] ?? 'bg-white';
     $textColor =
         [
@@ -18,7 +19,7 @@
 @endphp
 
 <div class="py-2">
-    <div class="{{ $directoryColor }} overflow-hidden shadow-sm sm:rounded-lg border border-gray-300">
+    <div class="{{ $directoryColor }} overflow-hidden shadow-sm sm:rounded-lg border border-gray-400">
         <div {{ $attributes->merge(['class' => 'p-4 '.$textColor]) }}>
             {{ $slot }}
         </div>

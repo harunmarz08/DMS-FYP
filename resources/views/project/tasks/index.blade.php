@@ -31,11 +31,6 @@
             </div>
         @break
 
-        @default
-            <div></div>
-    @endswitch
-
-    @switch(session('status'))
         @case('file-uploaded')
             <div class="max-w-8xl">
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
@@ -57,6 +52,7 @@
         @default
             <div></div>
     @endswitch
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="py-2">
@@ -113,7 +109,7 @@
                                             {{-- Task Name --}}
                                             <div class="flex flex-row pr-2">
                                                 <div class="content-center pr-2">{{ $task->name }}</div>
-                                                <div class="content-center">
+                                                <div class="content-center pr-2">
                                                     <a class="cursor-pointer" x-data=""
                                                         x-on:click.prevent="$dispatch('open-modal', 'edit-task-{{ $task->id }}')">
                                                         <?xml version="1.0" encoding="UTF-8"?>
@@ -154,7 +150,10 @@
                                                         </form>
                                                     </x-modal>
                                                 </div>
-
+                                                <div class="content-center pr-2">
+                                                    {{ $task->created_at->diffForHumans() }}</div>
+                                                <div class="content-center pr-2">
+                                                    {{ $task->updated_at->diffForHumans() }}</div>
                                             </div>
                                             {{-- Template  --}}
                                             <div>

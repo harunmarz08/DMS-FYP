@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
+    use Notifiable;
+
     protected $fillable = ['project_id', 'name', 'description', 'user_id'];
 
     public function project()
