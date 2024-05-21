@@ -16,25 +16,29 @@
                 </div>
                 <div class="bg-white overflow-y-auto overflow-x-hidden shadow-sm sm:rounded-lg" style="max-height: 500px;">
                     <div class="p-6 text-gray-900 ">
-                        <form action="{{ route('notifications.unread') }}" method="post">
-                            @csrf
-                            @method('post')
-                            <button type="submit">Mark as Unread</button>
-                        </form>
+
                         @foreach (auth()->user()->notifications as $notification)
                             <!-- Display notification data -->
 
-                            <x-directory color="gray">
+                            <x-directory :color="$notification->read_at ? 'gray' : 'white'">
 
                                 Notification ID: {{ $notification->id }} <br>
                                 Notification Data: {{ $notification->data['task_id'] }} <br>
                                 <form id="read_notification_{{ $notification->id }}"
                                     name="read_notification_{{ $notification->id }}"
-                                    action="{{ route('notifications.read', ['notification' => $notification->id]) }}"
+                                    action="{{ route('notifications.read', ['id' => $notification->id]) }}"
                                     method="post">
                                     @csrf
                                     @method('post')
                                     <button type="submit">Mark as Read</button>
+                                </form>
+                                <form id="unread_notification_{{ $notification->id }}"
+                                    name="unread_notification_{{ $notification->id }}"
+                                    action="{{ route('notifications.unread', ['id' => $notification->id]) }}"
+                                    method="post">
+                                    @csrf
+                                    @method('post')
+                                    <button type="submit">Mark as Unread</button>
                                 </form>
                             </x-directory>
                         @endforeach

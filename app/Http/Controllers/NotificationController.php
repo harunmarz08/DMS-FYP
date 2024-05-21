@@ -4,23 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
+
 
 class NotificationController extends Controller
 {
 
-    public function markAsRead()
+    public function markAsRead($id)
     {
-        Auth::user()->notifications->markAsRead();
+        Auth::user()->unreadNotifications->where('id', $id)->markAsRead();
 
         return redirect()->back()->with('status', 'notifications-cleared');
     }
 
-    public function markAsUnead()
+    public function markAsUnread($id)
     {
-        Auth::user()->notifications->markAsUnread();
+        Auth::user()->notifications->where('id', $id)->markAsUnread();
 
         return redirect()->back()->with('status', 'notifications-uncleared');
     }
-
 }

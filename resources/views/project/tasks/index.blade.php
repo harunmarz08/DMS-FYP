@@ -31,24 +31,6 @@
             </div>
         @break
 
-        @case('file-uploaded')
-            <div class="max-w-8xl">
-                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-white bg-green-400 border border-green-400 rounded-md p-2">
-                    {{ __('File Uploaded.') }}
-                </p>
-            </div>
-        @break
-
-        @case('upload-fail')
-            <div class="max-w-8xl">
-                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-white bg-red-400 border border-red-400 rounded-md p-2">
-                    {{ __('Upload Failed.') }}
-                </p>
-            </div>
-        @break
-
         @default
             <div></div>
     @endswitch
@@ -58,6 +40,17 @@
             <div class="py-2">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-4 m-4">
+                        <x-directory color="white" class="grid grid-cols-3 grid-rows-2">
+                            <div class="text-left">1</div> <!-- Align content to the left -->
+                            <div class="text-center">2</div> <!-- Align content to the center -->
+                            <div class="text-right">3</div> <!-- Align content to the right -->
+
+                            <div class="justify-self-start">4</div> <!-- Align content to the start (left) -->
+                            <div class="justify-self-center">5</div> <!-- Align content to the center -->
+                            <div class="justify-self-end">
+                                {{-- <x-nav-link :href="{{ route('project.template.index') }}">KK3</x-nav-link> --}}
+                            </div>
+                        </x-directory>
                         {{-- Add new Task --}}
                         <div class="flex justify-end">
                             <x-secondary-button x-data=""

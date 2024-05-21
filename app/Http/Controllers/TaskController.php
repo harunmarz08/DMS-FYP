@@ -106,7 +106,7 @@ class TaskController extends Controller
     public function update(Request $request, Project $project, Task $task)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'], // Adjust the max file size as needed
+            'name' => ['required', 'string', 'max:255'], 
         ]);
 
         $data = [

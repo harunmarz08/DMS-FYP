@@ -76,10 +76,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/assignment', [AssignmentController::class, 'showAssignments'])->name('project.assignment.assigned-tasks');
 
     // Notification 
-    Route::post('/notifications/markasread', [NotificationController::class, 'markAsRead'])->name('notifications.read');
-    Route::post('/notifications/markasunread', [NotificationController::class, 'markAsUnread'])->name('notifications.unread');
+    Route::post('/notifications/markasread/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/markasunread/{id}', [NotificationController::class, 'markAsUnread'])->name('notifications.unread');
 
 });
+
+// Document
+Route::get('/doc/KK3-template', [DocumentController::class, 'index'])->name('project.template.KK3');
+Route::post('/doc-print-to-template', [DocumentController::class, 'printContentToTemplate'])->name('project.template.create-doc');
+Route::get('/doc/download', [DocumentController::class, 'download'])->name('doc.download');
 
 // Test
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
