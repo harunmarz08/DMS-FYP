@@ -104,9 +104,7 @@ it18_11
 it18_12
 it18_13
 it18_14
-${it18extra}
-${it18_ex}.
-${/it18extra}
+
 div
 
 div
@@ -166,9 +164,9 @@ div
     it22_5e
     it22_5ex
 
-    it22_6a
-    it22_6b
-    it22_6c
+    it22_6clo1
+    it22_6clo2
+    it22_6clo3
     it22_6x
     div
 
@@ -188,7 +186,7 @@ div
     div
 
     div
-    it22_71a
+    it22_8
     div
 div
 
@@ -276,7 +274,8 @@ it_excel2
     it_excel3cb2
     it_excel3cb3
     div
-it_excel3
+it_excelx
+it_excelj
 div
 
 div

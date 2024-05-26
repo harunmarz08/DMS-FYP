@@ -1,51 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Form with Multiple Submit Buttons</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<body class="bg-gray-100">
 
-<body>
-    <h1>Create</h1>
-    <div>Product</div>
+    <div class="container mx-auto p-8">
+        <form id="multi-action-form" method="POST">
+            @csrf
+            <!-- Your form fields here -->
+            <div class="mb-4">
+                <label for="exampleInput" class="block text-sm font-medium text-gray-700">Example Input</label>
+                <input type="text" name="exampleInput" id="exampleInput" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm sm:text-sm">
+            </div>
 
-    <div>
-        @if ($errors->any())
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        @endif
+            <!-- Submit Buttons -->
+            <div class="fixed bottom-0 left-0 right-0 bg-white shadow-lg p-4 flex justify-end">
+                <button type="button" onclick="submitForm('{{ route('route1') }}')" class="mx-1 bg-blue-500 text-white px-4 py-2 rounded">Submit to Route 1</button>
+                <button type="button" onclick="submitForm('{{ route('route2') }}')" class="mx-1 bg-green-500 text-white px-4 py-2 rounded">Submit to Route 2</button>
+                <button type="button" onclick="submitForm('{{ route('route3') }}')" class="mx-1 bg-red-500 text-white px-4 py-2 rounded">Submit to Route 3</button>
+            </div>
+        </form>
     </div>
 
-    <form action="{{ route('product.insert') }}" method="post">
-        @csrf
-        @method('post')
+    <script>
+        function submitForm(action) {
+            const form = document.getElementById('multi-action-form');
+            form.action = action;
+            form.submit();
+        }
+    </script>
 
-        <div class="">
-            <label for="name">Name</label>
-            <input type="text" name="name" placeholder="name">
-        </div>
-        <div class="">
-            <label for="description">Description</label>
-            <input type="text" name="description" placeholder="description">
-        </div>
-        <div class="">
-            <label for="price">Price</label>
-            <input type="text" name="price" placeholder="price">
-        </div>
-        <div class="">
-            <label for="test">test</label>
-            <input type="text" name="test" placeholder="test">
-        </div>
-        <div>
-            <input type="submit" value="Save a new product">
-        </div>
-    </form>
 </body>
-
 </html>

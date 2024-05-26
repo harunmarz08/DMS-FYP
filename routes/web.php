@@ -79,12 +79,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/notifications/markasread/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
     Route::post('/notifications/markasunread/{id}', [NotificationController::class, 'markAsUnread'])->name('notifications.unread');
 
+    // Document
+    Route::get('/{project}/doc/KK3-template', [DocumentController::class, 'index'])->name('project.template.KK3');
+    Route::get('/doc-print-to-template', [DocumentController::class, 'printContentToTemplate'])->name('project.template.create-doc');
+    Route::post('/{project}/doc-saving-draft', [DocumentController::class, 'saveDraft'])->name('project.template.save-draft');
+    Route::get('/doc/download', [DocumentController::class, 'download'])->name('doc.download');
 });
 
-// Document
-Route::get('/doc/KK3-template', [DocumentController::class, 'index'])->name('project.template.KK3');
-Route::post('/doc-print-to-template', [DocumentController::class, 'printContentToTemplate'])->name('project.template.create-doc');
-Route::get('/doc/download', [DocumentController::class, 'download'])->name('doc.download');
+
 
 // Test
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
@@ -93,6 +95,10 @@ Route::post('/product', [ProductController::class, 'insert'])->name('product.ins
 Route::get('/product/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
 Route::put('/product/{product}/update', [ProductController::class, 'update'])->name('product.update');
 Route::delete('/product/{product}/delete', [ProductController::class, 'delete'])->name('product.delete');
+
+Route::post('/route1', [ProductController::class, 'handleRoute1'])->name('route1');
+Route::post('/route2', [ProductController::class, 'handleRoute2'])->name('route2');
+Route::post('/route3', [ProductController::class, 'handleRoute3'])->name('route3');
 
 require __DIR__ . '/auth.php';
 

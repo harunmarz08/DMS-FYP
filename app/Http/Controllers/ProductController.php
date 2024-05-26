@@ -58,4 +58,21 @@ class ProductController extends Controller
         return redirect(route('product.index'))->with('success',"Product Deleted Successfully");
 
     }
+    public function handleRoute1(Request $request)
+    {
+        dd($request);
+        return redirect()->back()->with('status', 'Submitted to Route 1');
+    }
+
+    public function handleRoute2(Request $request)
+    {
+        dd($request);
+        return redirect()->back()->with('status', 'Submitted to Route 2');
+    }
+
+    public function handleRoute3(Request $request)
+    {
+        dd($request);
+        return redirect()->back()->with('status', 'Submitted to Route 3');
+    }
 }

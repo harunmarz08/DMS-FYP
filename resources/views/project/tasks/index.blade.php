@@ -40,10 +40,16 @@
             <div class="py-2">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-4 m-4">
+                        <div class="text-xl font-bold pb-5 pt-3">
+                            {{ $project->name }}{{ __(' Main Document') }}
+                        </div>
+                        <x-button-link href="{{ route('project.template.create-doc') }}"
+                            class="mx-1">Download</x-button-link>
                         <x-directory color="white" class="grid grid-cols-3 grid-rows-2">
-                            <div class="text-left">1</div> <!-- Align content to the left -->
-                            <div class="text-center">2</div> <!-- Align content to the center -->
-                            <div class="text-right">3</div> <!-- Align content to the right -->
+                            <div class="justify-self-start">KK3</div> <!-- Align content to the left -->
+                            <div class="justify-self-center"><x-nav-link2 href="{{ route('project.template.KK3',['project' => $project]) }}">Edit Content</x-nav-link2></div> <!-- Align content to the center -->
+                            <div class="justify-self-end">Description</div>
+                            <!-- Align content to the right -->
 
                             <div class="justify-self-start">4</div> <!-- Align content to the start (left) -->
                             <div class="justify-self-center">5</div> <!-- Align content to the center -->
@@ -51,6 +57,10 @@
                                 {{-- <x-nav-link :href="{{ route('project.template.index') }}">KK3</x-nav-link> --}}
                             </div>
                         </x-directory>
+
+                        <div class="text-xl font-bold pb-5 pt-3">
+                            {{ $project->name }}{{ __(' Appendix') }}
+                        </div>
                         {{-- Add new Task --}}
                         <div class="flex justify-end">
                             <x-secondary-button x-data=""
@@ -85,9 +95,6 @@
                                     </div>
                                 </form>
                             </x-modal>
-                        </div>
-                        <div class="text-xl font-bold pb-5">
-                            {{ $project->name }}{{ __(' Appendix') }}
                         </div>
                         {{-- Task list  --}}
                         @if (count(session('tasks')) == 0){{-- if session tasks is empty --}}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\TemplateDocument;
 use App\Models\Document;
 use App\Http\Controllers\Controller;
 use App\Notifications\NewTaskUpload; 
@@ -24,13 +25,12 @@ class TaskController extends Controller
         $users = User::where('role', '1')->get();
         // $documents = Document::where('task_id', $tasks->id)->get();
         $documents = Document::whereIn('task_id', $tasks->pluck('id'))->get();
-
-
+        // dd($template_contents);
         Session::put('tasks', $tasks->isEmpty() ? collect([]) : $tasks);
         Session::put('users', $users);
         Session::put('documents', $documents->isEmpty() ? collect([]) : $documents);
 
-        return view('project.tasks.index', ['project' => $project]);
+        return view('project.tasks.index', ['project' => $project,]);
     }
 
     /**
