@@ -1,8 +1,9 @@
 div
+cover
 nama_program
-nama_pengerusi
-nama_timb_dekan
-nama_dekan
+nama1
+nama2
+nama3
 div
 
 div

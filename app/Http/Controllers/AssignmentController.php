@@ -7,6 +7,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Assignment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -18,7 +19,8 @@ class AssignmentController extends Controller
     public function showAssignments()
     {
         $user =  Auth::user();
-        $tasks = Task::where('user_id', $user->id)->with('project')->get(); // Eager load the project relationship
-        return view('project.assignment.assigned-tasks', ['tasks' => $tasks]);
+        $assignments = Assignment::all(); 
+        // dd($assignments);
+        return view('project.assignment.assigned-tasks');
     }
 }

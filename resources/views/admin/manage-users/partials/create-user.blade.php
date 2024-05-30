@@ -82,6 +82,7 @@
                                     <option value="default">-- Select a role --</option>
                                     <option value="0">Director</option>
                                     <option value="1">User</option>
+                                    <option value="2">TDA</option>
                                 </select>
                             </div>
                             <div class="flex items-center justify-end mt-4">

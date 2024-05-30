@@ -23,17 +23,17 @@ class DocumentController extends Controller
         Session::put('template_contents', $template_contents);
         $template_contents = Session::get('template_contents');
         // dd($template_contents);
-        return view('project.template.KK3',['project' => $project, 'template_contents'=>$template_contents]);
+        return view('project.template.KK3', ['project' => $project, 'template_contents' => $template_contents]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function printContentToTemplate(Request $request)
+    public function printContentToTemplate(Request $request, Project $project)
     {
         $kertas_kerja = new \PhpOffice\PhpWord\TemplateProcessor('KK3-template.docx');
 
-        $templateContent = TemplateDocument::where('id',2)->firstOrFail();
+        $templateContent = TemplateDocument::where('id', 2)->firstOrFail();
         $data2 = $templateContent->data2;
 
         foreach ($data2 as $key => $value) {
@@ -68,7 +68,7 @@ class DocumentController extends Controller
 
 
         // $kertas_kerja->saveAs('test/KK3-test.docx');
-        $documentPath = 'projects/test1/versionck'; // Example document path
+        $documentPath = 'projects/p_' . $project->name . '/t_main'; // Example document path
         $fileName = 'testing-full-output.docx';
         $temporaryFilePath = storage_path('app/' . $fileName);
         $kertas_kerja->saveAs($temporaryFilePath);
@@ -88,7 +88,6 @@ class DocumentController extends Controller
     public function download(Request $request)
     {
         // Individual File Download 
-
         $documentPath = 'projects/test1/version1';
         $fileName = 'KK3-test.docx';
         if (Storage::exists($documentPath . '/' . $fileName)) {
@@ -176,188 +175,15 @@ class DocumentController extends Controller
      */
     public function saveDraft(Request $request, Project $project)
     {
-        // $data = $request->validate([
-        //     "it1" => "nullable|string",
-        //     "tujuan" => "nullable|string",
-        //     "visi" => "nullable|string",
-        //     "misi" => "nullable|string",
-        //     "matlamat" => "nullable|string",
-        //     "it4" => "nullable|string",
-        //     "it5_1" => "nullable|string",
-        //     "it5_2" => "nullable|string",
-        //     "it6_1" => "nullable|string",
-        //     "it6_2" => "nullable|string",
-        //     "it6_3" => "nullable|string",
-        //     "it7_bmk" => "nullable|string",
-        //     "it7_bmp" => "nullable|string",
-        //     "it7_enk" => "nullable|string",
-        //     "it7_enp" => "nullable|string",
-        //     "it7_bma" => "nullable|string",
-        //     "it7_ena" => "nullable|string",
-        //     "it8_cb1" => "nullable|string",
-        //     "it8_cb2" => "nullable|string",
-        //     "it8_cb3" => "nullable|string",
-        //     "it8_cb4" => "nullable|string",
-        //     "it9" => "nullable|string",
-        //     "it10" => "nullable|string",
-        //     "it11" => "nullable|string",
-        //     "it12" => "nullable|string",
-        //     "it13" => "nullable|string",
-        //     "it14" => "nullable|string",
-        //     "it15" => "nullable|string",
-        //     "it16_1" => "nullable|string",
-        //     "it16_2" => "nullable|string",
-        //     "it16_3" => "nullable|string",
-        //     "it16_4" => "nullable|string",
-        //     "it16_5" => "nullable|string",
-        //     "it17_1cb1" => "nullable|string",
-        //     "it17_1cb2" => "nullable|string",
-        //     "it17_2" => "nullable|string",
-        //     "it18_1" => "nullable|string",
-        //     "it18_2" => "nullable|string",
-        //     "it18_3" => "nullable|string",
-        //     "it18_4" => "nullable|string",
-        //     "it18_5" => "nullable|string",
-        //     "it18_6" => "nullable|string",
-        //     "it18_7" => "nullable|string",
-        //     "it18_8" => "nullable|string",
-        //     "it18_9" => "nullable|string",
-        //     "it18_10" => "nullable|string",
-        //     "it18_11" => "nullable|string",
-        //     "it18_12" => "nullable|string",
-        //     "it18_13" => "nullable|string",
-        //     "it18_14" => "nullable|string",
-        //     "it19" => "nullable|string",
-        //     "it20" => "nullable|string",
-        //     "it21_1" => "nullable|string",
-        //     "it21_2" => "nullable|string",
-        //     "it21_3" => "nullable|string",
-        //     "it22_1_en" => "nullable|string",
-        //     "it22_1_bm" => "nullable|string",
-        //     "it22_1x" => "nullable|string",
-        //     "it22_2a" => "nullable|string",
-        //     "it22_2ax" => "nullable|string",
-        //     "it22_2b" => "nullable|string",
-        //     "it22_2bx" => "nullable|string",
-        //     "it22_3a" => "nullable|string",
-        //     "it22_3ax" => "nullable|string",
-        //     "it22_3b" => "nullable|string",
-        //     "it22_3bx" => "nullable|string",
-        //     "it22_4peo1" => "nullable|string",
-        //     "it22_4peo2" => "nullable|string",
-        //     "it22_4peo3" => "nullable|string",
-        //     "it22_4peox" => "nullable|string",
-        //     "it22_4plo1" => "nullable|string",
-        //     "it22_4plo2" => "nullable|string",
-        //     "it22_4plo3" => "nullable|string",
-        //     "it22_4plox" => "nullable|string",
-        //     "it22_5a" => "nullable|string",
-        //     "it22_5ax" => "nullable|string",
-        //     "it22_5b" => "nullable|string",
-        //     "it22_5bx" => "nullable|string",
-        //     "it22_5c" => "nullable|string",
-        //     "it22_5cx" => "nullable|string",
-        //     "it22_5d" => "nullable|string",
-        //     "it22_5dx" => "nullable|string",
-        //     "it22_5e" => "nullable|string",
-        //     "it22_5ex" => "nullable|string",
-        //     "it22_6a" => "nullable|string",
-        //     "it22_6b" => "nullable|string",
-        //     "it22_6c" => "nullable|string",
-        //     "it22_6x" => "nullable|string",
-        //     "it22_71a" => "nullable|string",
-        //     "it22_71b" => "nullable|string",
-        //     "it22_72a" => "nullable|string",
-        //     "it22_72b" => "nullable|string",
-        //     "it22_72c" => "nullable|string",
-        //     "it22_72p" => "nullable|string",
-        //     "it22_73a" => "nullable|string",
-        //     "it22_73b" => "nullable|string",
-        //     "it22_73c" => "nullable|string",
-        //     "it22_73p" => "nullable|string",
-        //     "it23_1a" => "nullable|string",
-        //     "it23_1b" => "nullable|string",
-        //     "it23_1c" => "nullable|string",
-        //     "it23_1d" => "nullable|string",
-        //     "it23_1e" => "nullable|string",
-        //     "it23_2a" => "nullable|string",
-        //     "it23_2b" => "nullable|string",
-        //     "it23_2c" => "nullable|string",
-        //     "it23_2d" => "nullable|string",
-        //     "it23_2e" => "nullable|string",
-        //     "it23_3a" => "nullable|string",
-        //     "it23_3b" => "nullable|string",
-        //     "it23_3c" => "nullable|string",
-        //     "it23_3d" => "nullable|string",
-        //     "it23_3e" => "nullable|string",
-        //     "it23_4a" => "nullable|string",
-        //     "it23_4b" => "nullable|string",
-        //     "it23_4c" => "nullable|string",
-        //     "it23_4d" => "nullable|string",
-        //     "it23_4e" => "nullable|string",
-        //     "it24_1" => "nullable|string",
-        //     "it24_2" => "nullable|string",
-        //     "it24_3" => "nullable|string",
-        //     "it24_4" => "nullable|string",
-        //     "it24_5" => "nullable|string",
-        //     "it25_1" => "nullable|string",
-        //     "it25_2" => "nullable|string",
-        //     "it26_1" => "nullable|string",
-        //     "it26_2" => "nullable|string",
-        //     "it27_1" => "nullable|string",
-        //     "it27_2" => "nullable|string",
-        //     "it27_3" => "nullable|string",
-        //     "it27_4" => "nullable|string",
-        //     "it28" => "nullable|string",
-        //     "it29_1" => "nullable|string",
-        //     "it29_2" => "nullable|string",
-        //     "it29_3" => "nullable|string",
-        //     "it30_1" => "nullable|string",
-        //     "it30_2" => "nullable|string",
-        //     "it30_3" => "nullable|string",
-        //     "it30_4" => "nullable|string",
-        //     "it30_5" => "nullable|string",
-        //     "it30_6" => "nullable|string",
-        //     "it30_7" => "nullable|string",
-        //     "it30_8" => "nullable|string",
-        //     "it31" => "nullable|string",
-        //     "it_excel1" => "nullable|string",
-        //     "it_excel2" => "nullable|string",
-        //     "it_excel3cb1" => "nullable|string",
-        //     "it_excel3cb2" => "nullable|string",
-        //     "it_excel3cb3" => "nullable|string",
-        //     "it_excelx" => "nullable|string",
-        //     "it_excelj" => "nullable|string",
-        // ]);
-    
-        $fields = [
-            "it1", "tujuan", "visi", "misi", "matlamat", "it4", "it5_1", "it5_2", "it6_1", "it6_2",
-            "it6_3", "it7_bmk", "it7_bmp", "it7_enk", "it7_enp", "it7_bma", "it7_ena", "it8_cb1", "it8_cb2",
-            "it8_cb3", "it8_cb4", "it9", "it10", "it11", "it12", "it13", "it14", "it15", "it16_1", "it16_2",
-            "it16_3", "it16_4", "it16_5", "it17_1cb1", "it17_1cb2", "it17_2", "it18_1", "it18_2", "it18_3",
-            "it18_4", "it18_5", "it18_6", "it18_7", "it18_8", "it18_9", "it18_10", "it18_11", "it18_12", "it18_13",
-            "it18_14", "it19", "it20", "it21_1", "it21_2", "it21_3", "it22_1_en", "it22_1_bm", "it22_1x", "it22_2a",
-            "it22_2ax", "it22_2b", "it22_2bx", "it22_3a", "it22_3ax", "it22_3b", "it22_3bx", "it22_4peo1", "it22_4peo2",
-            "it22_4peo3", "it22_4peox", "it22_4plo1", "it22_4plo2", "it22_4plo3", "it22_4plox", "it22_5a", "it22_5ax",
-            "it22_5b", "it22_5bx", "it22_5c", "it22_5cx", "it22_5d", "it22_5dx", "it22_5e", "it22_5ex", "it22_6a",
-            "it22_6b", "it22_6c", "it22_6x", "it22_71a", "it22_71b", "it22_72a", "it22_72b", "it22_72c", "it22_72p",
-            "it22_73a", "it22_73b", "it22_73c", "it22_73p", "it23_1a", "it23_1b", "it23_1c", "it23_1d", "it23_1e",
-            "it23_2a", "it23_2b", "it23_2c", "it23_2d", "it23_2e", "it23_3a", "it23_3b", "it23_3c", "it23_3d", "it23_3e",
-            "it23_4a", "it23_4b", "it23_4c", "it23_4d", "it23_4e", "it24_1", "it24_2", "it24_3", "it24_4", "it24_5",
-            "it25_1", "it25_2", "it26_1", "it26_2", "it27_1", "it27_2", "it27_3", "it27_4", "it28", "it29_1", "it29_2",
-            "it29_3", "it30_1", "it30_2", "it30_3", "it30_4", "it30_5", "it30_6", "it30_7", "it30_8", "it31", "it_excel1",
-            "it_excel2", "it_excel3cb1", "it_excel3cb2", "it_excel3cb3", "it_excelx", "it_excelj",
-        ];
-    
+        $fields = $this->getData2Keys();
+        dd($fields);
         // Validate the fields
-        $data = $request->validate(array_fill_keys($fields, 'nullable|string'));
-        
+        $data2 = $request->validate(array_fill_keys($fields, 'nullable|string'));
+
         $templateDocument = TemplateDocument::updateOrCreate(
             ['project_id' => $project->id],
-            ['data2' => $data]
+            ['data2' => $data2]
         );
-
-        dd($data);
     }
 
 
@@ -369,6 +195,45 @@ class DocumentController extends Controller
         //
     }
 
+    /**
+     * Update verification of document
+     */
+    public function verificationUpdate(Request $request, $projectId,$id)
+    {
+        $template_doc = TemplateDocument::findOrFail($id);
+        $project = Project::findOrFail($projectId);
+        // dd($project);
+        // Update the status based on the form input
+        $template_doc->update(['verification' => $request->input('review' . $id)]);
+        return redirect()->route('project.tasks.index', ['project' => $project]);
+    }
+
+    /**
+     * Update status of document
+     */
+    public function statusUpdate(Request $request , $projectId, $id)
+    {
+        $template_doc = TemplateDocument::findOrFail($id);
+        $project = Project::findOrFail($projectId);
+        // Update the status based on the form input
+        $template_doc->update(['status' => $request->input('status' . $id)]);
+        return redirect()->route('project.tasks.index', ['project' => $project]);
+    }
+
+/**
+     * Duplicate the specified resource in storage.
+     */
+    public function duplicate(Request $request, $projectId, TemplateDocument $template_doc)
+    {
+        // Duplicate the template document
+        $newTemplateDoc = $template_doc->replicate();
+        $project = Project::findOrFail($projectId);
+        $newTemplateDoc->status = null;
+        
+        // Save the duplicated document
+        $newTemplateDoc->save();
+        return redirect()->route('project.tasks.index', ['project' => $project]);
+    }
     /**
      * Update the specified resource in storage.
      */
@@ -383,5 +248,162 @@ class DocumentController extends Controller
     public function destroy(Document $document)
     {
         //
+    }
+
+    protected function validateTemplateData(Request $request)
+    {
+        return $request->validate([
+            "it1" => "nullable|string",
+            "tujuan" => "nullable|string",
+            "visi" => "nullable|string",
+            "misi" => "nullable|string",
+            "matlamat" => "nullable|string",
+            "it4" => "nullable|string",
+            "it5_1" => "nullable|string",
+            "it5_2" => "nullable|string",
+            "it6_1" => "nullable|string",
+            "it6_2" => "nullable|string",
+            "it6_3" => "nullable|string",
+            "it7_bmk" => "nullable|string",
+            "it7_bmp" => "nullable|string",
+            "it7_enk" => "nullable|string",
+            "it7_enp" => "nullable|string",
+            "it7_bma" => "nullable|string",
+            "it7_ena" => "nullable|string",
+            "it8_cb1" => "nullable|string",
+            "it8_cb2" => "nullable|string",
+            "it8_cb3" => "nullable|string",
+            "it8_cb4" => "nullable|string",
+            "it9" => "nullable|string",
+            "it10" => "nullable|string",
+            "it11" => "nullable|string",
+            "it12" => "nullable|string",
+            "it13" => "nullable|string",
+            "it14" => "nullable|string",
+            "it15" => "nullable|string",
+            "it16_1" => "nullable|string",
+            "it16_2" => "nullable|string",
+            "it16_3" => "nullable|string",
+            "it16_4" => "nullable|string",
+            "it16_5" => "nullable|string",
+            "it17_1cb1" => "nullable|string",
+            "it17_1cb2" => "nullable|string",
+            "it17_2" => "nullable|string",
+            "it18_1" => "nullable|string",
+            "it18_2" => "nullable|string",
+            "it18_3" => "nullable|string",
+            "it18_4" => "nullable|string",
+            "it18_5" => "nullable|string",
+            "it18_6" => "nullable|string",
+            "it18_7" => "nullable|string",
+            "it18_8" => "nullable|string",
+            "it18_9" => "nullable|string",
+            "it18_10" => "nullable|string",
+            "it18_11" => "nullable|string",
+            "it18_12" => "nullable|string",
+            "it18_13" => "nullable|string",
+            "it18_14" => "nullable|string",
+            "it19" => "nullable|string",
+            "it20" => "nullable|string",
+            "it21_1" => "nullable|string",
+            "it21_2" => "nullable|string",
+            "it21_3" => "nullable|string",
+            "it22_1_en" => "nullable|string",
+            "it22_1_bm" => "nullable|string",
+            "it22_1x" => "nullable|string",
+            "it22_2a" => "nullable|string",
+            "it22_2ax" => "nullable|string",
+            "it22_2b" => "nullable|string",
+            "it22_2bx" => "nullable|string",
+            "it22_3a" => "nullable|string",
+            "it22_3ax" => "nullable|string",
+            "it22_3b" => "nullable|string",
+            "it22_3bx" => "nullable|string",
+            "it22_4peo1" => "nullable|string",
+            "it22_4peo2" => "nullable|string",
+            "it22_4peo3" => "nullable|string",
+            "it22_4peox" => "nullable|string",
+            "it22_4plo1" => "nullable|string",
+            "it22_4plo2" => "nullable|string",
+            "it22_4plo3" => "nullable|string",
+            "it22_4plox" => "nullable|string",
+            "it22_5a" => "nullable|string",
+            "it22_5ax" => "nullable|string",
+            "it22_5b" => "nullable|string",
+            "it22_5bx" => "nullable|string",
+            "it22_5c" => "nullable|string",
+            "it22_5cx" => "nullable|string",
+            "it22_5d" => "nullable|string",
+            "it22_5dx" => "nullable|string",
+            "it22_5e" => "nullable|string",
+            "it22_5ex" => "nullable|string",
+            "it22_6a" => "nullable|string",
+            "it22_6b" => "nullable|string",
+            "it22_6c" => "nullable|string",
+            "it22_6x" => "nullable|string",
+            "it22_71a" => "nullable|string",
+            "it22_71b" => "nullable|string",
+            "it22_72a" => "nullable|string",
+            "it22_72b" => "nullable|string",
+            "it22_72c" => "nullable|string",
+            "it22_72p" => "nullable|string",
+            "it22_73a" => "nullable|string",
+            "it22_73b" => "nullable|string",
+            "it22_73c" => "nullable|string",
+            "it22_73p" => "nullable|string",
+            "it23_1a" => "nullable|string",
+            "it23_1b" => "nullable|string",
+            "it23_1c" => "nullable|string",
+            "it23_1d" => "nullable|string",
+            "it23_1e" => "nullable|string",
+            "it23_2a" => "nullable|string",
+            "it23_2b" => "nullable|string",
+            "it23_2c" => "nullable|string",
+            "it23_2d" => "nullable|string",
+            "it23_2e" => "nullable|string",
+            "it23_3a" => "nullable|string",
+            "it23_3b" => "nullable|string",
+            "it23_3c" => "nullable|string",
+            "it23_3d" => "nullable|string",
+            "it23_3e" => "nullable|string",
+            "it23_4a" => "nullable|string",
+            "it23_4b" => "nullable|string",
+            "it23_4c" => "nullable|string",
+            "it23_4d" => "nullable|string",
+            "it23_4e" => "nullable|string",
+            "it24_1" => "nullable|string",
+            "it24_2" => "nullable|string",
+            "it24_3" => "nullable|string",
+            "it24_4" => "nullable|string",
+            "it24_5" => "nullable|string",
+            "it25_1" => "nullable|string",
+            "it25_2" => "nullable|string",
+            "it26_1" => "nullable|string",
+            "it26_2" => "nullable|string",
+            "it27_1" => "nullable|string",
+            "it27_2" => "nullable|string",
+            "it27_3" => "nullable|string",
+            "it27_4" => "nullable|string",
+            "it28" => "nullable|string",
+            "it29_1" => "nullable|string",
+            "it29_2" => "nullable|string",
+            "it29_3" => "nullable|string",
+            "it30_1" => "nullable|string",
+            "it30_2" => "nullable|string",
+            "it30_3" => "nullable|string",
+            "it30_4" => "nullable|string",
+            "it30_5" => "nullable|string",
+            "it30_6" => "nullable|string",
+            "it30_7" => "nullable|string",
+            "it30_8" => "nullable|string",
+            "it31" => "nullable|string",
+            "it_excel1" => "nullable|string",
+            "it_excel2" => "nullable|string",
+            "it_excel3cb1" => "nullable|string",
+            "it_excel3cb2" => "nullable|string",
+            "it_excel3cb3" => "nullable|string",
+            "it_excelx" => "nullable|string",
+            "it_excelj" => "nullable|string",
+        ]);
     }
 }

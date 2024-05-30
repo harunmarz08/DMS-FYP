@@ -13,6 +13,8 @@ class TemplateDocument extends Model
 
     protected $fillable = [
         'project_id',
+        'verification',
+        'status',
         'data1',
         'data2',
         'data3',

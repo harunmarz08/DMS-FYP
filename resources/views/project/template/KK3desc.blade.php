@@ -18,6 +18,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="py-2">
                 <form id="multi-action-form" method="POST">
+                    
 
                     <div class="fixed bottom-0 left-0 right-0 bg-white shadow-lg">
                         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

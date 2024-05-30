@@ -71,6 +71,11 @@
                     </x-modal>
                 </div>
             </div>
+            @if (empty($projects))
+                
+            @else
+                
+            @endif
             @foreach ($projects as $project)
                 <x-directory color="white" class="grid grid-cols-3 gap-4">
                     <div class="pl-3">
@@ -81,7 +86,7 @@
                         <div>Condition: N/A</div>
                         <div>Date Created: DD/MM/YYYY</div>
                         <div>Status: Draft</div>
-                    </div> 
+                    </div>
                     <div class="flex justify-end">
                         <a class="cursor-pointer" x-data=""
                             x-on:click.prevent="$dispatch('open-modal', 'delete-project-{{ $project->id }}')">

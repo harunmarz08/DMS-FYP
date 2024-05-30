@@ -32,7 +32,6 @@ class ProjectController extends Controller
      */
     public function notification()
     {
-        
     }
 
     /**
@@ -56,7 +55,7 @@ class ProjectController extends Controller
             'created_by' => $user->name,
         ]);
 
-        $projectDirectory = 'projects/p_' . $project->name;
+        $projectDirectory = 'projects/p_' . $project->name . '/t_main';
         Storage::makeDirectory($projectDirectory);
 
         return redirect(route('project.index'))->with('status', 'project-created');

@@ -43,18 +43,105 @@
                         <div class="text-xl font-bold pb-5 pt-3">
                             {{ $project->name }}{{ __(' Main Document') }}
                         </div>
-                        <x-button-link href="{{ route('project.template.create-doc') }}"
-                            class="mx-1">Download</x-button-link>
-                        <x-directory color="white" class="grid grid-cols-3 grid-rows-2">
-                            <div class="justify-self-start">KK3</div> <!-- Align content to the left -->
-                            <div class="justify-self-center"><x-nav-link2 href="{{ route('project.template.KK3',['project' => $project]) }}">Edit Content</x-nav-link2></div> <!-- Align content to the center -->
-                            <div class="justify-self-end">Description</div>
-                            <!-- Align content to the right -->
+                        <x-button-link href="" class="mx-1">Compile</x-button-link>
+                        <x-directory color="white">
+                            <div class="grid grid-cols-3 grid-rows-2">
+                                <div class="justify-self-start"></div> <!-- Align content to the left -->
+                                <div class="justify-self-center">
+                                    <h1 class="text-xl font-bold">KK3</h1>
+                                </div> <!-- Align content to the center -->
+                                <div class="justify-self-end"></div>
+                                <div class="justify-self-end"></div>
+                                <div class="justify-self-end"></div>
+                                <div class="justify-self-end">
 
-                            <div class="justify-self-start">4</div> <!-- Align content to the start (left) -->
-                            <div class="justify-self-center">5</div> <!-- Align content to the center -->
-                            <div class="justify-self-end">
-                                {{-- <x-nav-link :href="{{ route('project.template.index') }}">KK3</x-nav-link> --}}
+                                </div>
+                            </div>
+                            <div class="grid grid-flow-row grid-cols-7">
+                                @foreach (session('template_docs') as $template_doc)
+                                    <x-file-directory class="justify-between">
+                                        <div class="p-3">{{ $loop->iteration }}.KK3</div>
+                                        <div class="py-1">
+                                            <form id="form{{ $template_doc->id }}1" class="max-w-auto mx-auto"
+                                                method="post"
+                                                action="{{ route('project.template.verification-update', ['project' => $project, 'templateId' => $template_doc]) }}">
+                                                @csrf
+                                                @method('put')
+                                                <select id="ver{{ $template_doc->id }}"
+                                                    name="review{{ $template_doc->id }}"
+                                                    class="block w-auto bg-white border-2 rounded border-gray-500 appearance-none focus:ring-0 focus:border-gray-300"
+                                                    onchange="submitForm('form{{ $template_doc->id }}1')">
+                                                    <option value="default"
+                                                        {{ $template_doc->verification ? '' : 'selected' }}>Not
+                                                        reviewed</option>
+                                                    <option value="JKAF"
+                                                        {{ $template_doc->verification == 'JKAF' ? 'selected' : '' }}>
+                                                        JKAF</option>
+                                                    <option value="JKKU"
+                                                        {{ $template_doc->verification == 'JKKU' ? 'selected' : '' }}>
+                                                        JKKU</option>
+                                                    <option value="JKTS KKA"
+                                                        {{ $template_doc->verification == 'JKTS KKA' ? 'selected' : '' }}>
+                                                        JKTS KKA</option>
+                                                    <option value="Senat"
+                                                        {{ $template_doc->verification == 'Senat' ? 'selected' : '' }}>
+                                                        Senat</option>
+                                                    <option value="Lembaga"
+                                                        {{ $template_doc->verification == 'Lembaga' ? 'selected' : '' }}>
+                                                        Lembaga</option>
+                                                </select>
+                                            </form>
+                                        </div>
+
+                                        <div class="py-1">
+                                            <form id="form{{ $template_doc->id }}2" class="max-w-auto mx-auto"
+                                                method="post"
+                                                action="{{ route('project.template.status-update', ['project' => $project, 'templateId' => $template_doc]) }}">
+                                                @csrf
+                                                @method('put')
+                                                <select id="stat{{ $template_doc->id }}"
+                                                    name="status{{ $template_doc->id }}"
+                                                    class="block w-auto border-2 rounded border-gray-500 appearance-none focus:ring-0 focus:border-gray-300 {{ $template_doc->status == 'Rejected' ? 'bg-red-500' : ($template_doc->status == 'Accepted' ? 'bg-green-500' : '') }}"
+                                                    onchange="submitForm('form{{ $template_doc->id }}2')">
+                                                    <option value="default">-status-</option>
+                                                    <option value="Accepted"
+                                                        {{ $template_doc->status == 'Accepted' ? 'selected' : '' }}>
+                                                        Accepted</option>
+                                                    <option value="Rejected"
+                                                        {{ $template_doc->status == 'Rejected' ? 'selected' : '' }}>
+                                                        Rejected</option>
+                                                </select>
+                                            </form>
+                                        </div>
+
+                                        <script>
+                                            function submitForm(formId) {
+                                                document.getElementById(formId).submit();
+                                            }
+                                        </script>
+                                        <div class="padding">
+                                        </div>
+                                        <div class="justify-self-end pt-2">
+                                            <x-primary-button color="black">download</x-primary-button>
+                                        </div>
+                                        <div class="justify-self-end pt-2">
+                                            <x-button-link color="white">cover</x-button-link>
+                                        </div>
+                                        <div class="justify-self-end pt-2">
+                                            <x-button-link color="white"
+                                                href="{{ route('project.template.KK3', ['project' => $project, 'main' => $template_doc]) }}">main</x-button-link>
+                                        </div>
+                                        <div class="justify-self-end pt-2">
+                                            <form method="POST"
+                                                action="{{ route('project.template.duplicate', ['projectId' => $project, 'template_doc' => $template_doc]) }}">
+                                                @csrf
+                                                @method('post')
+                                                <x-primary-button color="white"
+                                                    onclick="return confirm('Are you sure you want to duplicate this template?')">duplicate</x-primary-button>
+                                            </form>
+                                        </div>
+                                    </x-file-directory>
+                                @endforeach
                             </div>
                         </x-directory>
 
@@ -97,14 +184,14 @@
                             </x-modal>
                         </div>
                         {{-- Task list  --}}
-                        @if (count(session('tasks')) == 0){{-- if session tasks is empty --}}
+                        @if (empty(session('tasks'))){{-- if session tasks is empty --}}
                             <div class="text-center">
                                 {{ __('There are no tasks') }}
                             </div>
                         @else
                             <div class="flex flex-col space-y-4">
                                 @foreach (session('tasks') as $task)
-                                    <x-directory color="white" class="grid grid-cols-3">
+                                    <x-directory color="white" class="grid grid-cols-3 grid-rows-2">
                                         <div class="flex items-center">
                                             {{-- Task Name --}}
                                             <div class="flex flex-row pr-2">
@@ -170,28 +257,7 @@
                                         </div>
                                         {{-- Version  --}}
                                         <div class="flex flex-row justify-center">
-                                            <div class="content-center pr-2">
-                                                <form class="max-w-md mx-auto">
-                                                    @csrf
-                                                    @method('post')
-                                                    <x-input-label for="version" :value="__('Version')" class="sr-only" />
-                                                    <select id="version_{{ $task->id }}"
-                                                        class="block py-2.5 px-3 mx-5 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
-                                                        <option value="default">Choose</option>
-                                                        @foreach (session('documents')->where('task_id', $task->id) as $document)
-                                                            <option name="version_{{ $task->id }}"
-                                                                value="{{ $document->id }}">
-                                                                {{ 'v_' }}{{ $document->version }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </form>
-                                            </div>
-                                            <div class="content-center">
-                                                <x-secondary-button class="ms-4">
-                                                    {{ __('Download') }}
-                                                </x-secondary-button>
-                                            </div>
+
                                         </div>
                                         <div class="flex flex-row justify-end ">
                                             {{-- Upload --}}
@@ -349,6 +415,17 @@
                                             </div>
 
                                         </div>
+
+                                        @foreach ($task->documents as $document)
+                                            <x-file-directory>{{ $document->file_path }} -
+                                                {{ $document->version }}
+                                            <div class="flex flex-row justify-end">
+                                                <x-secondary-button>download</x-secondary-button>
+                                                <x-secondary-button>delete</x-secondary-button>
+                                            </div>
+                                            </x-file-directory>
+                                        @endforeach
+
                                     </x-directory>
                                 @endforeach
                             </div>
