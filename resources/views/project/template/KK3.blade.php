@@ -818,10 +818,10 @@
                                                         <x-expanding-textarea placeholder="Type here..." class="w-full" name="it23_4c" :value="$template_contents->data2['it23_4c']"/>
                                                     </td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it23_4d" :value="$template_contents->data2['visi']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it23_4d" :value="$template_contents->data2['it23_4d']"/>
                                                     </td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it23_4e" :value="$template_contents->data2['visi']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it23_4e" :value="$template_contents->data2['it23_4e']"/>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -835,15 +835,15 @@
                                 <div class="justify-self-left col-span-2">24. SYARAT KEMASUKAN</div>
                                 <div class="justify-self-left col-span-4 ml-2">
                                     <h1 class="text-l font-semibold mb-4">24.1. Nyatakan syarat am, khusus dan syarat khas kemasukan/ program.</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it24_1" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it24_1" :value="$template_contents->data2['it24_1']"/>
                                     <h1 class="text-l font-semibold mb-4">24.2. Nyatakan keperluan kelayakan asas termasuk Band MUET</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it24_2" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it24_2" :value="$template_contents->data2['it24_2']"/>
                                     <h1 class="text-l font-semibold mb-4">24.3. Nyatakan keperluan dan kemahiran prasyarat serta syarat/kelayakan lain jika diperlukan.</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it24_3" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it24_3" :value="$template_contents->data2['it24_3']"/>
                                     <h1 class="text-l font-semibold mb-4">24.4. Nyatakan keperluan pelajar untuk mengambil apa-apa kursus khas bagi mereka yang tidak memenuhi kriteria kemasukan, syarat am dan khusus mengikut kelulusan Senat.</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it24_4" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it24_4" :value="$template_contents->data2['it24_4']"/>
                                     <h1 class="text-l font-semibold mb-4">24.5. Nyatakan kategori OKU yang diterima masuk ke program ini.</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it24_5" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it24_5" :value="$template_contents->data2['it24_5']"/>
                                 </div>
                             </x-directory>
 
@@ -853,10 +853,10 @@
                                 <div class="justify-self-left col-span-4 ml-2">
                                     <h1 class="text-l font-semibold mb-4">25.1. Nyatakan program yang sama atau hampir sama
                                         di universiti lain &#40;awam dan swasta&#41; dalam negara/pertindihan program.</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it25_1" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it25_1" :value="$template_contents->data2['it25_1']"/>
                                     <h1 class="text-l font-semibold mb-4">25.2. Nyatakan persamaan, perbezaan dan kekuatan program akademik 
                                         yang disemak dengan program universiti yang lain dalam negara yang dibandingkan.</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it25_2" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it25_2" :value="$template_contents->data2['it25_2']"/>
                                 </div>
                             </x-directory>
 
@@ -866,10 +866,10 @@
                                 <div class="justify-self-left col-span-4 ml-2">
                                     <h1 class="text-l font-semibold mb-4">26.1. Nyatakan program yang sama atau hamper
                                         sama yang ditawarkan oleh universiti lain di luar negara.</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it26_1" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it26_1" :value="$template_contents->data2['it26_1']"/>
                                     <h1 class="text-l font-semibold mb-4">26.2. Nyatakan persamaan, perbezaan dan
                                         kekuatan program akademik yang dipohon dengan program universiti yang lain dalam negara yang dibandingkan</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it26_2" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it26_2" :value="$template_contents->data2['it26_2']"/>
                                 </div>
                             </x-directory>
 
@@ -878,13 +878,13 @@
                                 <div class="justify-self-left col-span-2">27. IMPLIKASI PERJAWATAN/ FIZIKAL DAN KEWANGAN</div>
                                 <div class="justify-self-left col-span-4 ml-2">
                                     <h1 class="text-l font-semibold mb-4">27.1. Nyatakan keperluan perjawatan sama ada memadai dengan perjawatan sedia ada atau penambahan baharu dengan mengambilkira elemen sinergi.</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it27_1" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it27_1" :value="$template_contents->data2['it27_1']"/>
                                     <h1 class="text-l font-semibold mb-4">27.2. Nyatakan keperluan fizikal/infrastruktur sama ada memadai dengan keperluan fizikal/infrastruktur sedia ada atau penambahan baharu dengan mengambilkira elemen sinergi.</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it27_2" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it27_2" :value="$template_contents->data2['it27_2']"/>
                                     <h1 class="text-l font-semibold mb-4">27.3. Nyatakan implikasi kewangan yang berkaitan.</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it27_3" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it27_3" :value="$template_contents->data2['it27_3']"/>
                                     <h1 class="text-l font-semibold mb-4">27.4. Nyatakan sama ada implikasi yang dinyatakan menggunakan peruntukan dalaman universiti atau memerlukan peruntukan tambahan daripada kementerian.</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it27_4" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it27_4" :value="$template_contents->data2['it27_4']"/>
                                 </div>
                             </x-directory>
 
@@ -893,7 +893,7 @@
                                 <div class="justify-self-left col-span-2">28. PENJUMUDAN/ PEMBEKUAN/ PELUPUSAN PROGRAM</div>
                                 <div class="justify-self-left col-span-4 ml-2">
                                     <h1 class="text-l font-semibold mb-4">Nyatakan program sedia ada yang telah/akan dijumudkan/dibekukan/dilupuskan.</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it28" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it28" :value="$template_contents->data2['it28']"/>
                                 </div>
                             </x-directory>
 
@@ -913,19 +913,19 @@
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">Kelulusan asal program oleh Senat</td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it29_1" :value="$template_contents->data2['visi']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it29_1" :value="$template_contents->data2['it29_1']"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">Kelulusan asal program oleh JKPT</td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it29_2" :value="$template_contents->data2['visi']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it29_2" :value="$template_contents->data2['it29_2']"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">Sesi program asal ditawarkan</td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it29_3" :value="$template_contents->data2['visi']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it29_3" :value="$template_contents->data2['it29_3']"/>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -952,49 +952,49 @@
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">Tarikh Semakan Kurikulum Terdahulu oleh JKPT</td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_1" :value="$template_contents->data2['visi']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_1" :value="$template_contents->data2['it30_1']"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">Akreditasi Penuh/MQA</td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_2" :value="$template_contents->data2['visi']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_2" :value="$template_contents->data2['it30_2']"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">Sesi program asal ditawarkan</td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_3" :value="$template_contents->data2['visi']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_3" :value="$template_contents->data2['it30_3']"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">Mesyuarat Jawatankuasa Akademik Fakulti &#40;JKAF&#41;</td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_4" :value="$template_contents->data2['visi']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_4" :value="$template_contents->data2['it30_4']"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">Mesyuarat Jawatankuasa Kurikulum Universiti &#40;JKKU&#41;</td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_5" :value="$template_contents->data2['visi']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_5" :value="$template_contents->data2['it30_5']"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">Mesyuarat Jawatankuasa Tetap Senat Kurikulum dan Kualiti Akademik &#40;JKTS KKA&#41;</td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_6" :value="$template_contents->data2['visi']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_6" :value="$template_contents->data2['it30_6']"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">Mesyuarat Senat</td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_7" :value="$template_contents->data2['visi']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_7" :value="$template_contents->data2['it30_7']"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">Mesyuarat Lembaga Pengarah Universiti</td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_8" :value="$template_contents->data2['visi']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it30_8" :value="$template_contents->data2['it30_8']"/>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -1008,7 +1008,7 @@
                                 <div class="justify-self-left col-span-2">31. KESIMPULAN/ SYOR</div>
                                 <div class="justify-self-left col-span-4 ml-2">
                                     <h1 class="text-l font-semibold mb-4">Jawatankuasa Kurikulum Universiti dengan segala hormatnya dipohon untuk meluluskan </h1>
-                                    <x-expanding-textarea placeholder="Nama kertas kerja" class="w-full" name="it31" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Nama kertas kerja" class="w-full" name="it31" :value="$template_contents->data2['it31']"/>
                                 </div>
                             </x-directory>
                         </div>
@@ -1023,7 +1023,7 @@
                             <x-directory color="white" class="grid grid-cols-6">
                                 <div class="justify-self-left col-span-2">1. ADAKAH PEMBANGUNAN /SEMAKAN PROGRAM INI MENERAPKAN KERANGKA EXCEL?</div>
                                 <div class="justify-self-left col-span-4 ml-2">
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excel1" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excel1" :value="$template_contents->data2['it_excel1']"/>
                                 </div>
                             </x-directory>
 
@@ -1031,7 +1031,7 @@
                             <x-directory color="white" class="grid grid-cols-6">
                                 <div class="justify-self-left col-span-2">2. APAKAH TERAS EXCEL YANG DITERAPKAN DALAM PEMBANGUNAN/SEMAKAN PROGRAM INI?</div>
                                 <div class="justify-self-left col-span-4 ml-2">
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excel2" :value="$template_contents->data2['visi']"/>
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excel2" :value="$template_contents->data2['it_excel2']"/>
                                 </div>
                             </x-directory>
 
@@ -1075,12 +1075,13 @@
                                         </table>
                                     </div><br>
                                     <h1 class="text-l font-semibold mb-4">Nyatakan nama kursus yang terlibat dalam Kerangka EXCEL.</h1>
+                                    {{-- Mulitple Input --}}
                                     <div class="justify-self-left col-span-4 ml-2">
-                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelx" :value="$template_contents->data2['visi']"/>
+                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelx" :value="$template_contents->data2['it_excelx']"/>
                                     </div>
                                     <h1 class="text-l font-semibold mb-4">Justifikasi:</h1>
                                     <div class="justify-self-left col-span-4 ml-2">
-                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelj" :value="$template_contents->data2['visi']"/>
+                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelj" :value="$template_contents->data2['it_excelj']"/>
                                     </div>
                                 </div>
                             </x-directory>
