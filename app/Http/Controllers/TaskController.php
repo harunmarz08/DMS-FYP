@@ -23,7 +23,10 @@ class TaskController extends Controller
     public function index(Project $project)
     {
         $this->getOrCreateTemplate($project);
-
+        // Update the status 
+        $project_status = Project::findOrFail($project->id);
+        $project_status->update(['status' => 'On-going']);
+        
         $tasks = Task::where('project_id', $project->id)->with('documents')->get();
         $template_docs = TemplateDocument::where('project_id', $project->id)->get();
         $users = User::where('role', '1')->get();
@@ -46,7 +49,7 @@ class TaskController extends Controller
         $validatedData = $request->validate([
             'task_count' => 'required|integer|min:1',
         ]);
-
+        
         $count = $validatedData['task_count'];
         $defaultUser = 1;
 
@@ -60,7 +63,7 @@ class TaskController extends Controller
             ]);
             $task->save();
 
-            $taskDirectory = 'projects/p_' . $project->name . '/t_' . $task->id;
+            $taskDirectory = 'projects/' . $project->created_by . '/p_' . $project->name . '/t_' . $task->id;
             Storage::makeDirectory($taskDirectory);
         }
 
@@ -79,17 +82,16 @@ class TaskController extends Controller
         $file = $request->file('document');
 
         if ($request->hasFile('document') && $request->file('document')->isValid()) {
-
-            $users = User::where('role', '0')->get(); // Adjust this query to get the users you want to notify
-            Notification::send($users, new NewTaskUpload($task, $project));
+            
 
             $latestDocument = Document::where('task_id', $task->id)->latest()->first();
 
             $version = $latestDocument ? $latestDocument->version + 1 : 1;
 
-            $documentPath = 'projects/p_' . $project->name . '/t_' . $task->id . '/v_' . $version . '';
+            $documentPath = 'projects/' . $project->created_by . '/p_' . $project->name . '/t_' . $task->id. '/v_' . $version . '';
 
-            $storedPath = Storage::putFile($documentPath, $file);
+            $originalFileName = $file->getClientOriginalName();
+            $storedPath = $file->storeAs($documentPath, $originalFileName);
 
             $directory = dirname($storedPath); // Get the directory path
 
@@ -101,6 +103,10 @@ class TaskController extends Controller
                 'version' => $version,
             ]);
 
+            //Notify
+            $users = User::where('role', '0')->get(); // Adjust this query to get the users you want to notify
+            Notification::send($users, new NewTaskUpload($task, $project));
+            
             return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'file_uploaded');
         } else {
             return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'upload_fail');
@@ -125,46 +131,74 @@ class TaskController extends Controller
         return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'task-updated');
     }
 
-    /**
-     * Director assign a User with role 1 to a Task.
-     */
-    public function assign(Request $request, Task $task, Project $project)
+    public function download(Document $document)
     {
-        $user = $request->validate([
-            'user_id' => 'required|exists:users,id',
-        ]);
+        $filePath = $document->file_path;
+        $fileName = $document->filename;  
+        if (Storage::exists($filePath.'/'.$fileName)) {
+            return Storage::download($filePath.'/'.$fileName);
+        }
 
-        $task->update(['user_id' => $user['user_id']]);
-        Assignment::create([
-            'project_id' => $project->id,
-                'task_id' => $task->id,
-                'user_id' => $user,
-        ]);
-        return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'task-assigned');
+        return redirect()->back()->with('error', 'File not found.');
     }
 
     /**
      * Director assign a User with role 1 to a Task.
      */
-    public function unassign(Request $request, Task $task, Project $project)
-    {
-        $task->update(['user_id' => 1]);
+    // public function assign(Request $request, Task $task, Project $project)
+    // {
+    //     $user = $request->validate([
+    //         'user_id' => 'required|exists:users,id',
+    //     ]);
 
-        return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'task-unassigned');
-    }
+    //     $task->update(['user_id' => $user['user_id']]);
+    //     Assignment::create([
+    //         'project_id' => $project->id,
+    //         'task_id' => $task->id,
+    //         'user_id' => $user,
+    //     ]);
+    //     return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'task-assigned');
+    // }
+
+    // /**
+    //  * Director assign a User with role 1 to a Task.
+    //  */
+    // public function unassign(Request $request, Task $task, Project $project)
+    // {
+    //     $task->update(['user_id' => 1]);
+
+    //     return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'task-unassigned');
+    // }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Project $project, Task $task)
     {
-        $taskDirectory = 'projects/p_' . $project->name . '/t_' . $task->id;
-        Storage::deleteDirectory($taskDirectory);
+        $taskDirectory = 'projects/' . $project->created_by . '/p_' . $project->name . '/t_' . $task->id;
+        
+        if (Storage::exists($taskDirectory)) {
+            Storage::deleteDirectory($taskDirectory);
+        }
 
         $task->delete();
 
         return redirect(route('project.tasks.index', ['project' => $project]))->with('status', 'task-deleted');
     }
+
+    public function deleteTaskDocument(Project $project, Task $task, Document $document)
+    {
+        $documentDirectory = 'projects/' . $project->created_by . '/p_' . $project->name . '/t_' . $task->id . '/v_' . $document->version;
+        
+        if (Storage::exists($documentDirectory)) {
+            Storage::deleteDirectory($documentDirectory);
+        }
+
+        $document->delete();
+
+        return redirect(route('project.tasks.index', ['project' => $project]))->with('status', 'task-deleted');
+    }
+
 
     protected function getOrCreateTemplate(Project $project)
     {
@@ -192,8 +226,10 @@ class TaskController extends Controller
     protected function getData1Keys()
     {
         return [
-            "cover", "nama_program", "nama1", "nama2", "nama3", 
-            "c_pp_name", "c_pp_off", "c_pp_ph", "c_pp_mail", 
+            "cover", "nama_program", 
+            "nama1", "nama2", "nama3",
+            "jawatan1", "jawatan2", "jawatan3",
+            "c_pp_name", "c_pp_off", "c_pp_ph", "c_pp_mail",
             "c_dk_name", "c_dk_off", "c_dk_ph", "c_dk_mail",
         ];
     }
@@ -219,8 +255,8 @@ class TaskController extends Controller
             "it18_14", "it19", "it20", "it21_1", "it21_2", "it21_3", "it22_1_en", "it22_1_bm", "it22_1x", "it22_2a",
             "it22_2ax", "it22_2b", "it22_2bx", "it22_3a", "it22_3ax", "it22_3b", "it22_3bx", "it22_4peo1", "it22_4peo2",
             "it22_4peo3", "it22_4peox", "it22_4plo1", "it22_4plo2", "it22_4plo3", "it22_4plox", "it22_5a", "it22_5ax",
-            "it22_5b", "it22_5bx", "it22_5c", "it22_5cx", "it22_5d", "it22_5dx", "it22_5e", "it22_5ex", "it22_6a",
-            "it22_6b", "it22_6c", "it22_6x", "it22_71a", "it22_71b", "it22_72a", "it22_72b", "it22_72c", "it22_72p",
+            "it22_5b", "it22_5bx", "it22_5c", "it22_5cx", "it22_5d", "it22_5dx", "it22_5e", "it22_5ex", "it22_6clo1",
+            "it22_6clo2", "it22_6clo3", "it22_6x", "it22_71a", "it22_71b", "it22_72a", "it22_72b", "it22_72c", "it22_72p",
             "it22_73a", "it22_73b", "it22_73c", "it22_73p", "it23_1a", "it23_1b", "it23_1c", "it23_1d", "it23_1e",
             "it23_2a", "it23_2b", "it23_2c", "it23_2d", "it23_2e", "it23_3a", "it23_3b", "it23_3c", "it23_3d", "it23_3e",
             "it23_4a", "it23_4b", "it23_4c", "it23_4d", "it23_4e", "it24_1", "it24_2", "it24_3", "it24_4", "it24_5",

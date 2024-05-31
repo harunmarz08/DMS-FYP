@@ -26,8 +26,4 @@ class Task extends Model
     {
         return $this->hasMany(Document::class);
     }
-    public function assignment()
-    {
-        return $this->hasOne(Assignment::class);
-    }
 }

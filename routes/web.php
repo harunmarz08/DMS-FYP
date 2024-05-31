@@ -62,6 +62,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/notification', [ProjectController::class, 'notification']);
     Route::post('/project/create', [ProjectController::class, 'createProject'])->name('project.create');
     Route::delete('/project/{project}/delete', [ProjectController::class, 'destroy'])->name('project.destroy');
+    Route::get('/project/{project}/show-collaborators', [ProjectController::class, 'showAddCollaboratorsForm'])->name('project.show-add-collaborators-form');
+    Route::put('/project/{project}/add-collaborators', [ProjectController::class, 'addCollaborators'])->name('project.add-collaborators');
 
     // Task 
     Route::get('/{project}/tasks/', [TaskController::class, 'index'])->name('project.tasks.index');
@@ -70,19 +72,22 @@ Route::middleware('auth')->group(function () {
     Route::post('/{project}/{task}/upload', [TaskController::class, 'store'])->name('task.upload');
     Route::post('/tasks/assigning-{task}-{project}', [TaskController::class, 'assign'])->name('task.assign');
     Route::post('/tasks/unassigning-{task}-{project}', [TaskController::class, 'unassign'])->name('task.unassign');
+    Route::get('/task/{document}/download', [TaskController::class, 'download'])->name('document.download');
     Route::delete('/{project}/{task}/delete', [TaskController::class, 'destroy'])->name('task.destroy');
+    Route::delete('/{project}/{task}/{document}/delete', [TaskController::class, 'deleteTaskDocument'])->name('task.document.delete');
 
     // Assignment 
-    Route::get('/assignments', [AssignmentController::class, 'showAssignments'])->name('project.assignment.assigned-tasks');
+    // Route::get('/assignments', [AssignmentController::class, 'showAssignments'])->name('project.assignment.assigned-tasks');
 
     // Notification 
     Route::post('/notifications/markasread/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
     Route::post('/notifications/markasunread/{id}', [NotificationController::class, 'markAsUnread'])->name('notifications.unread');
 
-    // Document
-    Route::get('/{project}/doc/KK3-{main}', [DocumentController::class, 'index'])->name('project.template.KK3');
-    Route::get('/doc-print-to-template', [DocumentController::class, 'printContentToTemplate'])->name('project.template.create-doc');
-    Route::post('/{project}/doc-saving-draft', [DocumentController::class, 'saveDraft'])->name('project.template.save-draft');
+    // Template Document
+    Route::get('/{project}/doc/KK3-{type?}/{template_doc}', [DocumentController::class, 'index'])->name('project.template.KK3');
+    Route::get('/{project}-print-to-template', [DocumentController::class, 'printContentToTemplate'])->name('project.template.create-doc');
+    Route::post('/{project}/saving-draft-main', [DocumentController::class, 'saveDraftMain'])->name('project.template.save-draft-main');
+    Route::post('/{project}/saving-draft-cover', [DocumentController::class, 'saveDraftCover'])->name('project.template.save-draft-cover');
     Route::get('/doc/download', [DocumentController::class, 'download'])->name('doc.download');
     Route::put('/{project}/{templateId}/verification-update', [DocumentController::class, 'verificationUpdate'])->name('project.template.verification-update');
     Route::put('/{project}/{templateId}/status-update', [DocumentController::class, 'statusUpdate'])->name('project.template.status-update');

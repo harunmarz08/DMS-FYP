@@ -23,14 +23,14 @@
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
-                        @if (auth()->user()->role == 0)
-                            <x-nav-link :href="route('project.index')" :active="request()->routeIs('project.index')">
-                                {{ __('Projects') }}
-                            </x-nav-link>
-                        @endif
-                        <x-nav-link :href="route('project.assignment.assigned-tasks')" :active="request()->routeIs('project.assignment.assigned-tasks')">
-                            {{ __('Assignment') }}
+                        {{-- @if (auth()->user()->role == 0) --}}
+                        <x-nav-link :href="route('project.index')" :active="request()->routeIs('project.index')">
+                            {{ __('Projects') }}
                         </x-nav-link>
+                        {{-- @endif --}}
+                        {{-- <x-nav-link :href="route('project.assignment.assigned-tasks')" :active="request()->routeIs('project.assignment.assigned-tasks')">
+                            {{ __('Assignment') }}
+                        </x-nav-link> --}}
                     @endauth
                 </div>
             </div>

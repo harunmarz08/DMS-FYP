@@ -11,6 +11,12 @@
             </x-nav-link2>
         </h2>
     </x-slot>
+    <style>
+        .disabled-button {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+    </style>
     <div>appendix</div>
     @switch(session('status'))
         @case('task-assigned')
@@ -49,18 +55,13 @@
                                 <div class="justify-self-start"></div> <!-- Align content to the left -->
                                 <div class="justify-self-center">
                                     <h1 class="text-xl font-bold">KK3</h1>
-                                </div> <!-- Align content to the center -->
-                                <div class="justify-self-end"></div>
-                                <div class="justify-self-end"></div>
-                                <div class="justify-self-end"></div>
-                                <div class="justify-self-end">
-
                                 </div>
+                                <div class="justify-self-end"></div>
                             </div>
                             <div class="grid grid-flow-row grid-cols-7">
                                 @foreach (session('template_docs') as $template_doc)
                                     <x-file-directory class="justify-between">
-                                        <div class="p-3">{{ $loop->iteration }}.KK3</div>
+                                        <div class="p-3">{{ $loop->iteration }}. KK3</div>
                                         <div class="py-1">
                                             <form id="form{{ $template_doc->id }}1" class="max-w-auto mx-auto"
                                                 method="post"
@@ -70,7 +71,8 @@
                                                 <select id="ver{{ $template_doc->id }}"
                                                     name="review{{ $template_doc->id }}"
                                                     class="block w-auto bg-white border-2 rounded border-gray-500 appearance-none focus:ring-0 focus:border-gray-300"
-                                                    onchange="submitForm('form{{ $template_doc->id }}1')">
+                                                    onchange="submitForm('form{{ $template_doc->id }}1')"
+                                                    {{ auth()->check() && auth()->user()->role !== 0 ? 'disabled' : '' }}>
                                                     <option value="default"
                                                         {{ $template_doc->verification ? '' : 'selected' }}>Not
                                                         reviewed</option>
@@ -102,12 +104,13 @@
                                                 <select id="stat{{ $template_doc->id }}"
                                                     name="status{{ $template_doc->id }}"
                                                     class="block w-auto border-2 rounded border-gray-500 appearance-none focus:ring-0 focus:border-gray-300 {{ $template_doc->status == 'Rejected' ? 'bg-red-500' : ($template_doc->status == 'Accepted' ? 'bg-green-500' : '') }}"
-                                                    onchange="submitForm('form{{ $template_doc->id }}2')">
-                                                    <option value="default">-status-</option>
-                                                    <option value="Accepted"
+                                                    onchange="submitForm('form{{ $template_doc->id }}2')"
+                                                    {{ auth()->check() && auth()->user()->role !== 0 ? 'disabled' : '' }}>
+                                                    <option class="bg-gray-100" value="default">-status-</option>
+                                                    <option class="bg-green-500" value="Accepted"
                                                         {{ $template_doc->status == 'Accepted' ? 'selected' : '' }}>
                                                         Accepted</option>
-                                                    <option value="Rejected"
+                                                    <option class="bg-red-500" value="Rejected"
                                                         {{ $template_doc->status == 'Rejected' ? 'selected' : '' }}>
                                                         Rejected</option>
                                                 </select>
@@ -125,20 +128,38 @@
                                             <x-primary-button color="black">download</x-primary-button>
                                         </div>
                                         <div class="justify-self-end pt-2">
-                                            <x-button-link color="white">cover</x-button-link>
+                                            <x-button-link color="white"
+                                                href="{{ route('project.template.KK3', ['project' => $project, 'type' => 'cover', 'template_doc' => $template_doc]) }}">
+                                                Cover
+                                            </x-button-link>
                                         </div>
                                         <div class="justify-self-end pt-2">
                                             <x-button-link color="white"
-                                                href="{{ route('project.template.KK3', ['project' => $project, 'main' => $template_doc]) }}">main</x-button-link>
+                                                href="{{ route('project.template.KK3', ['project' => $project, 'type' => 'main', 'template_doc' => $template_doc]) }}">
+                                                Main
+                                            </x-button-link>
+                                            {{-- <div>
+                                                <x-button-link color="white"
+                                                    href="{{ auth()->check() && auth()->user()->role === 0 ? route('project.template.KK3', ['project' => $project, 'main' => $template_doc]) : '#' }}"
+                                                    @if (!(auth()->check() && auth()->user()->role === 0)) disabled @endif
+                                                    class="{{ !(auth()->check() && auth()->user()->role === 0) ? 'disabled-button' : '' }}">
+                                                    Main
+                                                </x-button-link>
+                                            </div> --}}
                                         </div>
                                         <div class="justify-self-end pt-2">
-                                            <form method="POST"
-                                                action="{{ route('project.template.duplicate', ['projectId' => $project, 'template_doc' => $template_doc]) }}">
-                                                @csrf
-                                                @method('post')
-                                                <x-primary-button color="white"
-                                                    onclick="return confirm('Are you sure you want to duplicate this template?')">duplicate</x-primary-button>
-                                            </form>
+                                            @if (auth()->check() && auth()->user()->role === 0)
+                                                <form method="POST"
+                                                    action="{{ route('project.template.duplicate', ['projectId' => $project, 'template_doc' => $template_doc]) }}">
+                                                    @csrf
+                                                    @method('post')
+                                                    <x-primary-button color="white"
+                                                        onclick="return confirm('Are you sure you want to duplicate this template?')">Duplicate</x-primary-button>
+                                                </form>
+                                            @else
+                                                <x-primary-button color="white" disabled
+                                                    class="disabled-button">Duplicate</x-primary-button>
+                                            @endif
                                         </div>
                                     </x-file-directory>
                                 @endforeach
@@ -237,25 +258,12 @@
                                                         </form>
                                                     </x-modal>
                                                 </div>
-                                                <div class="content-center pr-2">
+                                                {{-- <div class="content-center pr-2">
                                                     {{ $task->created_at->diffForHumans() }}</div>
                                                 <div class="content-center pr-2">
-                                                    {{ $task->updated_at->diffForHumans() }}</div>
-                                            </div>
-                                            {{-- Template  --}}
-                                            <div>
-                                                <x-secondary-button title="Download Template">
-                                                    <?xml version="1.0" encoding="UTF-8"?>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1"
-                                                        data-name="Layer 1" viewBox="0 0 24 24" width="15"
-                                                        height="15">
-                                                        <path
-                                                            d="M24,24H0v-2H24v2Zm-9.86-4.89l9.82-10.11h-6.95V0H7V9H.07l9.8,10.11h0c.57,.58,1.32,.89,2.12,.89h0c.8,0,1.56-.31,2.13-.89Z" />
-                                                    </svg>
-                                                </x-secondary-button>
+                                                    {{ $task->updated_at->diffForHumans() }}</div> --}}
                                             </div>
                                         </div>
-                                        {{-- Version  --}}
                                         <div class="flex flex-row justify-center">
 
                                         </div>
@@ -297,10 +305,10 @@
                                                     </form>
                                                 </x-modal>
                                             </div>
-                                            {{-- Assignment --}}
+                                            {{-- Assignment - (Depreciated) --}}
                                             <div class="content-center pr-2">
-                                                @if ($task->user_id != 1)
-                                                    {{-- Unassign --}}
+                                                {{-- @if ($task->user_id != 1)
+                                                    Unassign
                                                     <x-secondary-button x-data=""
                                                         x-on:click.prevent="$dispatch('open-modal', 'unassign-task-{{ $task->id }}')">{{ __('Unassign') }}
                                                     </x-secondary-button>
@@ -327,7 +335,7 @@
                                                         </form>
                                                     </x-modal>
                                                 @else
-                                                    {{-- Assign --}}
+                                                    Assign
                                                     <x-primary-button x-data=""
                                                         x-on:click.prevent="$dispatch('open-modal', 'assign-task-{{ $task->id }}')">{{ __('Assign') }}
                                                     </x-primary-button>
@@ -375,7 +383,7 @@
                                                             </div>
                                                         </form>
                                                     </x-modal>
-                                                @endif
+                                                @endif --}}
 
                                             </div>
                                             {{-- Delete Task --}}
@@ -417,12 +425,66 @@
                                         </div>
 
                                         @foreach ($task->documents as $document)
-                                            <x-file-directory>{{ $document->file_path }} -
-                                                {{ $document->version }}
-                                            <div class="flex flex-row justify-end">
-                                                <x-secondary-button>download</x-secondary-button>
-                                                <x-secondary-button>delete</x-secondary-button>
-                                            </div>
+                                            <x-file-directory>
+                                                <div class="grid grid-cols-subgrid col-span-2">
+                                                    <div>
+                                                        {{ $loop->iteration }}.
+                                                        {{ $document->filename }}
+                                                    </div>
+                                                    <div>
+                                                        <p class="m-2 px-2 bg-blue-300 text-blue-800 rounded-xl inline-block">
+                                                            v{{ $document->version }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex flex-row justify-end">
+                                                    <x-button-link
+                                                        href="{{ route('document.download', $document->id) }}"
+                                                        color="black">download</x-button-link>
+                                                    {{-- <form method="post" action="{{ route('task.document.delete', ['task' => $task, 'project' => $project, 'document' => $document]) }}">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <x-primary-button type="submit">Delete</x-primary-button>
+                                                    </form> --}}
+
+                                                    {{-- Delete Document --}}
+                                                    <div class="content-center px-2">
+                                                        <a class="cursor-pointer" x-data=""
+                                                            x-on:click.prevent="$dispatch('open-modal', 'delete-task-{{ $document->id }}')">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" id="trash"
+                                                                data-name="trash" fill="red  " viewBox="0 0 24 24"
+                                                                width="20" height="20">
+                                                                <path
+                                                                    d="m13,8h-2v-1h2v1Zm-4,8c0,.551.448,1,1,1h4c.552,0,1-.449,1-1v-6h-6v6Zm15-4c0,6.617-5.383,12-12,12S0,18.617,0,12,5.383,0,12,0s12,5.383,12,12Zm-6-4h-3v-1c0-1.103-.897-2-2-2h-2c-1.103,0-2,.897-2,2v1h-3v2h1v6c0,1.654,1.346,3,3,3h4c1.654,0,3-1.346,3-3v-6h1v-2Z" />
+                                                            </svg>
+                                                        </a>
+
+                                                        <x-modal name="delete-task-{{ $document->id }}" focusable>
+                                                            <form method="post"
+                                                                action="{{ route('task.document.delete', ['task' => $task, 'project' => $project, 'document' => $document]) }}"
+                                                                class="p-6">
+                                                                @csrf
+                                                                @method('delete')
+
+                                                                <h2 class="text-lg font-medium text-gray-900 py-2">
+                                                                    {{ __('Are you sure to delete this Document?') }}
+                                                                </h2>
+                                                                <div class="mt-6 flex justify-end">
+
+                                                                    <x-secondary-button
+                                                                        x-on:click="$dispatch('close')">
+                                                                        {{ __('Cancel') }}
+                                                                    </x-secondary-button>
+
+                                                                    <x-primary-button class="ms-3">
+                                                                        {{ __('Delete') }}
+                                                                    </x-primary-button>
+                                                                </div>
+                                                            </form>
+                                                        </x-modal>
+                                                    </div>
+                                                </div>
                                             </x-file-directory>
                                         @endforeach
 

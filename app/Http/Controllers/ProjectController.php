@@ -20,10 +20,11 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $userId = auth()->id(); // Get the ID of the authenticated user
+        $projects = Project::where('user_id', $userId)->orWhereJsonContains('collaborators', [['id' => $userId]])
+        ->get(); // Only get projects created by the authenticated user
 
         Session::forget(['tasks', 'users', 'documents']);
-
         return view('project.index', ['projects' => $projects]);
     }
 
@@ -44,29 +45,58 @@ class ProjectController extends Controller
         // Validate the incoming request data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'created_by' => 'required|exists:users,id',
+            'user_id' => 'required|exists:users,id',
         ]);
 
-        $user = User::findOrFail($validatedData['created_by']);
-
+        // dd(Auth::id());
+        $user = Auth::user();
+        
         // Create a new project instance and save it to the database
         $project = Project::create([
             'name' => $validatedData['name'],
+            'user_id' => $user->id,
             'created_by' => $user->name,
+            'status' => 'New',
         ]);
 
-        $projectDirectory = 'projects/p_' . $project->name . '/t_main';
+        $projectDirectory = 'projects/' . $user->name . '/p_' . $project->name . '/t_main';
         Storage::makeDirectory($projectDirectory);
 
         return redirect(route('project.index'))->with('status', 'project-created');
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for adding collaborator
      */
-    public function edit(Task $task)
+    public function showAddCollaboratorsForm(Project $project)
     {
-        //
+        // Fetch all users except the project creator
+        $users = User::where('id', '!=', Auth::id())->get();
+
+        return view('project.add-collaborators', compact('project', 'users'));
+    }
+
+    public function addCollaborators(Request $request, Project $project)
+    {
+        $validatedData = $request->validate([
+            'collaborators' => 'required|array',
+            'collaborators.*' => 'exists:users,id',
+        ]);
+
+        $newCollaborators = [];
+
+        if (!empty($validatedData['collaborators'])) {
+            foreach ($validatedData['collaborators'] as $userId) {
+                $user = User::findOrFail($userId);
+                $newCollaborators[] = ['id' => $user->id, 'email' => $user->email, 'role' => $user->role];
+            }
+        }
+
+        // Update the project with the new list of collaborators
+        $project->collaborators = $newCollaborators;
+        $project->save();
+
+        return redirect()->route('project.index')->with('status', 'Collaborators added successfully');
     }
 
     /**
@@ -89,7 +119,7 @@ class ProjectController extends Controller
         $providedPassword = $request->password;
         $providedPasswordHash = Hash::make($providedPassword);
 
-        $projectDirectory = 'projects/p_' . $project->name;
+        $projectDirectory = 'projects/' . $user->name . '/p_' . $project->name;
         Storage::deleteDirectory($projectDirectory);
 
         if (Hash::check($providedPassword, $storedPasswordHash)) {

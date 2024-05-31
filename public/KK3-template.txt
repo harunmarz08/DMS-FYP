@@ -4,6 +4,9 @@ nama_program
 nama1
 nama2
 nama3
+jawatan1
+jawatan2
+jawatan3
 div
 
 div

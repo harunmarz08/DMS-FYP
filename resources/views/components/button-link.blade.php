@@ -1,4 +1,4 @@
-@props(['color' => 'black'])
+@props(['color' => 'black', 'disabled' => false])
 
 @php
     $linkColors = [

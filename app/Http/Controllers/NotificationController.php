@@ -14,7 +14,7 @@ class NotificationController extends Controller
     public function markAsRead($id)
     {
         Auth::user()->unreadNotifications->where('id', $id)->markAsRead();
-
+        // Auth::user()->unreadNotifications->where('id', $id)->first()->delete();
         return redirect()->back()->with('status', 'notifications-cleared');
     }
 
