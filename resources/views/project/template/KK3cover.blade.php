@@ -8,14 +8,31 @@
                 </svg>
                 {{-- {{ session('project-name') }} --}}
                 {{-- {{ $project->name }} --}}
+
                 {{ __('KK3 Cover Page and Contact Info') }}
             </x-nav-link2>
         </h2>
     </x-slot>
-    <div>appendix</div>
-
+    <div>
+        
+    </div>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if(isset($statusDraft) && $statusDraft == 'Saved successfully')
+                <div class="max-w-7xl text-center">
+                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => { show = false; {{ isset($statusDraft) ? 'unset($statusDraft);' : '' }} }, 2000)"
+                        class="text-sm text-white bg-green-400 border border-green-400 rounded-md p-2">
+                        {{ __('Saved successfully') }}
+                    </p>
+                </div>
+            @elseif(isset($statusDraft) && $statusDraft == 'Unsuccessful')
+                <div class="max-w-7xl text-center">
+                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => { show = false; {{ isset($statusDraft) ? 'unset($statusDraft);' : '' }} }, 2000)"
+                        class="text-sm text-gray-800 bg-red-500 border border-red-500 rounded-md p-2">
+                        {{ __('Unsuccessful.') }}
+                    </p>
+                </div>
+            @endif
             <div class="py-2">
                 <form id="multi-action-form" method="POST">
                     @csrf
@@ -25,14 +42,17 @@
                             {{ __('CADANGAN SEMAKAN KURIKULUM PROGRAM') }}
                         </h2>
                         {{-- Item 1 --}}
-                        <x-directory color="white" class="grid grid-cols-6">
-                            <div class="text-left col-span-3">
-                                <h1 class="text-l font-semibold mb-4 ">Jenis Mesyuarat &#40;Cth: JAWATANKUASA KURIKULUM UNIVERSITI&#41;</h1>
-                                <x-expanding-textarea placeholder="Type here..." class="w-full uppercase" name="cover" :value="$template_contents->data1['cover']" />
+                        <x-directory color="white" class="grid grid-cols-2">
+                            <div class="text-left ml-2">
+                                <h1 class="text-l font-semibold mb-4 ">Jenis Mesyuarat &#40;Cth: JAWATANKUASA KURIKULUM
+                                    UNIVERSITI&#41;</h1>
+                                <x-expanding-textarea placeholder="Type here..." class="w-full uppercase"
+                                    :numCols='50' name="cover" :value="strtoupper($template_contents->data1['cover'])" />
                             </div>
-                            <div class="text-left col-span-3 ml-2">
+                            <div class="text-left mx-2">
                                 <h1 class="text-l font-semibold mb-4 ">Nama Program &#40;Cth: SECJH etc.&#41;</h1>
-                                <x-expanding-textarea placeholder="Type here..." class="w-full uppercase" name="nama_program" :value="$template_contents->data1['nama_program']" />
+                                <x-expanding-textarea placeholder="Type here..." class="w-full uppercase"
+                                    :numCols='50' name="nama_program" :value="strtoupper($template_contents->data1['nama_program'])" />
                             </div>
                         </x-directory>
 
@@ -53,25 +73,25 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td class="border border-gray-300 px-4 py-2">
-                                                        Tandatangan
-                                                    </td>
-                                                    <td class="border border-gray-300 px-4 py-2" colspan="3">
-                                                        To be filled on the completed document 
-                                                    </td>                                                    
+                                                    <td class="border border-gray-300 px-4 py-2">Tandatangan</td>
+                                                    <td class="border border-gray-300 px-4 py-2" colspan="3">To be
+                                                        filled on the completed document</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">
                                                         Nama
                                                     </td>
                                                     <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="nama1" :value="$template_contents->data1['nama1']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full"
+                                                            :numCols='30' name="nama1" :value="$template_contents->data1['nama1']" />
                                                     </td>
                                                     <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="nama2" :value="$template_contents->data1['nama2']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full"
+                                                            :numCols='30' name="nama2" :value="$template_contents->data1['nama2']" />
                                                     </td>
                                                     <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="nama3" :value="$template_contents->data1['nama3']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full"
+                                                            :numCols='30' name="nama3" :value="$template_contents->data1['nama3']" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -79,21 +99,24 @@
                                                         Jawatan
                                                     </td>
                                                     <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="jawatan1" :value="$template_contents->data1['jawatan1']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full"
+                                                            :numCols='30' name="jawatan1" :value="$template_contents->data1['jawatan1']" />
                                                     </td>
                                                     <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="jawatan2" :value="$template_contents->data1['jawatan2']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full"
+                                                            :numCols='30' name="jawatan2" :value="$template_contents->data1['jawatan2']" />
                                                     </td>
                                                     <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="jawatan3" :value="$template_contents->data1['jawatan3']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full"
+                                                            :numCols='30' name="jawatan3" :value="$template_contents->data1['jawatan3']" />
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">
                                                         Tarikh
-                                                    </td>                                                    
+                                                    </td>
                                                     <td class="border border-gray-300 px-4 py-2" colspan="3">
-                                                        To be filled on the completed document 
+                                                        To be filled on the completed document
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -108,26 +131,30 @@
                             <div class="col-span-6">
                                 <div class="flex justify-center">
                                     <div class="text-center ml-2">
-                                        <h1 class="text-l font-semibold mb-4">MAKLUMAT PEGAWAI PENYEDIA DOKUMEN UNTUK DIHUBUNGI</h1>
+                                        <h1 class="text-l font-semibold mb-4">MAKLUMAT PEGAWAI PENYEDIA DOKUMEN UNTUK
+                                            DIHUBUNGI</h1>
                                         <table class="table-fixed border-collapse border  border-gray-200 ">
                                             <thead>
                                                 <tr class="bg-gray-100">
                                                     <th class="border border-gray-300 px-4 py-2">MAKLUMAT</th>
                                                     <th class="border border-gray-300 px-4 py-2 ">URUS SETIA UA</th>
-                                                    <th class="border border-gray-300 px-4 py-2">ENTITI AKADEMIK YANG MEMOHON</th>
+                                                    <th class="border border-gray-300 px-4 py-2">ENTITI AKADEMIK YANG
+                                                        MEMOHON</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>                                                
+                                            <tbody>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">
                                                         Nama
                                                     </td>
                                                     <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="c_pp_name" :value="$template_contents->data1['c_pp_name']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full"
+                                                            :numCols='30' name="c_pp_name" :value="$template_contents->data1['c_pp_name']" />
                                                     </td>
                                                     <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="c_dk_name" :value="$template_contents->data1['c_dk_name']"/>
-                                                    </td>                                                    
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full"
+                                                            :numCols='30' name="c_dk_name" :value="$template_contents->data1['c_dk_name']" />
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">
@@ -143,34 +170,46 @@
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">
                                                         No. Tel Pejabat
-                                                    </td>                                                    
-                                                    <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="c_pp_off" :value="$template_contents->data1['c_pp_off']"/>
                                                     </td>
                                                     <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="c_dk_off" :value="$template_contents->data1['c_dk_off']"/>
+                                                        <x-expanding-textarea placeholder="Type here..."
+                                                            class="w-full" :numCols='30' name="c_pp_off"
+                                                            :value="$template_contents->data1['c_pp_off']" />
+                                                    </td>
+                                                    <td class="border border-gray-300">
+                                                        <x-expanding-textarea placeholder="Type here..."
+                                                            class="w-full" :numCols='50' name="c_dk_off"
+                                                            :value="$template_contents->data1['c_dk_off']" />
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">
                                                         No. Tel Bimbit
-                                                    </td>                                                    
-                                                    <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="c_pp_ph" :value="$template_contents->data1['c_pp_ph']"/>
                                                     </td>
                                                     <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="c_dk_ph" :value="$template_contents->data1['c_dk_ph']"/>
+                                                        <x-expanding-textarea placeholder="Type here..."
+                                                            class="w-full" :numCols='30' name="c_pp_ph"
+                                                            :value="$template_contents->data1['c_pp_ph']" />
+                                                    </td>
+                                                    <td class="border border-gray-300">
+                                                        <x-expanding-textarea placeholder="Type here..."
+                                                            class="w-full" :numCols='50' name="c_dk_ph"
+                                                            :value="$template_contents->data1['c_dk_ph']" />
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">
                                                         E-mel
-                                                    </td>                                                    
-                                                    <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="c_pp_mail" :value="$template_contents->data1['c_pp_mail']"/>
                                                     </td>
                                                     <td class="border border-gray-300">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="c_dk_mail" :value="$template_contents->data1['c_dk_mail']"/>
+                                                        <x-expanding-textarea placeholder="Type here..."
+                                                            class="w-full" :numCols='30' name="c_pp_mail"
+                                                            :value="$template_contents->data1['c_pp_mail']" />
+                                                    </td>
+                                                    <td class="border border-gray-300">
+                                                        <x-expanding-textarea placeholder="Type here..."
+                                                            class="w-full" :numCols='50' name="c_dk_mail"
+                                                            :value="$template_contents->data1['c_dk_mail']" />
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -185,8 +224,8 @@
                                     <x-secondary-button id="save-draft" color="black"
                                         onclick="submitForm('{{ route('project.template.save-draft-cover', ['project' => $project]) }}')"
                                         class="mx-1">Save Draft</x-secondary-button>
-                                    <x-secondary-button color="black" class="mx-1">Preview</x-secondary-button>
-                                    <x-secondary-button color="black" class="mx-1">temp</x-secondary-button>
+                                    {{-- <x-secondary-button color="black" class="mx-1">Preview</x-secondary-button>
+                                    <x-secondary-button color="black" class="mx-1">temp</x-secondary-button> --}}
                                 </div>
                             </div>
                         </div>

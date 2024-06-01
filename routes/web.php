@@ -76,19 +76,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/{project}/{task}/delete', [TaskController::class, 'destroy'])->name('task.destroy');
     Route::delete('/{project}/{task}/{document}/delete', [TaskController::class, 'deleteTaskDocument'])->name('task.document.delete');
 
-    // Assignment 
-    // Route::get('/assignments', [AssignmentController::class, 'showAssignments'])->name('project.assignment.assigned-tasks');
-
     // Notification 
     Route::post('/notifications/markasread/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
     Route::post('/notifications/markasunread/{id}', [NotificationController::class, 'markAsUnread'])->name('notifications.unread');
 
     // Template Document
     Route::get('/{project}/doc/KK3-{type?}/{template_doc}', [DocumentController::class, 'index'])->name('project.template.KK3');
-    Route::get('/{project}-print-to-template', [DocumentController::class, 'printContentToTemplate'])->name('project.template.create-doc');
+    Route::get('/{project}/{template_doc}/print-and-download', [DocumentController::class, 'printAndDownloadTemplate'])->name('project.template.print-download');
     Route::post('/{project}/saving-draft-main', [DocumentController::class, 'saveDraftMain'])->name('project.template.save-draft-main');
     Route::post('/{project}/saving-draft-cover', [DocumentController::class, 'saveDraftCover'])->name('project.template.save-draft-cover');
-    Route::get('/doc/download', [DocumentController::class, 'download'])->name('doc.download');
+    Route::post('/{project}/saving-draft-excel', [DocumentController::class, 'saveDraftExcel'])->name('project.template.save-draft-excel');
+    Route::get('/{project}/doc/compile-download', [DocumentController::class, 'compile'])->name('doc.compile');
     Route::put('/{project}/{templateId}/verification-update', [DocumentController::class, 'verificationUpdate'])->name('project.template.verification-update');
     Route::put('/{project}/{templateId}/status-update', [DocumentController::class, 'statusUpdate'])->name('project.template.status-update');
     Route::post('/duplicate-document/{projectId}/{template_doc}/', [DocumentController::class, 'duplicate'])->name('project.template.duplicate');
@@ -97,16 +95,16 @@ Route::middleware('auth')->group(function () {
 
 
 // Test
-Route::get('/product', [ProductController::class, 'index'])->name('product.index');
-Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
-Route::post('/product', [ProductController::class, 'insert'])->name('product.insert');
-Route::get('/product/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
-Route::put('/product/{product}/update', [ProductController::class, 'update'])->name('product.update');
-Route::delete('/product/{product}/delete', [ProductController::class, 'delete'])->name('product.delete');
+// Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+// Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+// Route::post('/product', [ProductController::class, 'insert'])->name('product.insert');
+// Route::get('/product/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
+// Route::put('/product/{product}/update', [ProductController::class, 'update'])->name('product.update');
+// Route::delete('/product/{product}/delete', [ProductController::class, 'delete'])->name('product.delete');
 
-Route::post('/route1', [ProductController::class, 'handleRoute1'])->name('route1');
-Route::post('/route2', [ProductController::class, 'handleRoute2'])->name('route2');
-Route::post('/route3', [ProductController::class, 'handleRoute3'])->name('route3');
+// Route::post('/route1', [ProductController::class, 'handleRoute1'])->name('route1');
+// Route::post('/route2', [ProductController::class, 'handleRoute2'])->name('route2');
+// Route::post('/route3', [ProductController::class, 'handleRoute3'])->name('route3');
 
 require __DIR__ . '/auth.php';
 

@@ -207,7 +207,9 @@ class TaskController extends Controller
             [
                 'data1' => $this->getDefaultData1(),
                 'data2' => $this->getDefaultData2(),
-                'data3' => [],
+                'data3' => $this->getDefaultData3(),
+                'data4' => $this->getDefaultData4(),
+                'data5' => $this->getDefaultData5(),
                 'version' => 1,
             ]
         );
@@ -257,12 +259,62 @@ class TaskController extends Controller
             "it22_4peo3", "it22_4peox", "it22_4plo1", "it22_4plo2", "it22_4plo3", "it22_4plox", "it22_5a", "it22_5ax",
             "it22_5b", "it22_5bx", "it22_5c", "it22_5cx", "it22_5d", "it22_5dx", "it22_5e", "it22_5ex", "it22_6clo1",
             "it22_6clo2", "it22_6clo3", "it22_6x", "it22_71a", "it22_71b", "it22_72a", "it22_72b", "it22_72c", "it22_72p",
-            "it22_73a", "it22_73b", "it22_73c", "it22_73p", "it23_1a", "it23_1b", "it23_1c", "it23_1d", "it23_1e",
+            "it22_73a", "it22_73b", "it22_73c", "it22_73p","it22_8", "it23_1a", "it23_1b", "it23_1c", "it23_1d", "it23_1e",
             "it23_2a", "it23_2b", "it23_2c", "it23_2d", "it23_2e", "it23_3a", "it23_3b", "it23_3c", "it23_3d", "it23_3e",
             "it23_4a", "it23_4b", "it23_4c", "it23_4d", "it23_4e", "it24_1", "it24_2", "it24_3", "it24_4", "it24_5",
             "it25_1", "it25_2", "it26_1", "it26_2", "it27_1", "it27_2", "it27_3", "it27_4", "it28", "it29_1", "it29_2",
-            "it29_3", "it30_1", "it30_2", "it30_3", "it30_4", "it30_5", "it30_6", "it30_7", "it30_8", "it31", "it_excel1",
-            "it_excel2", "it_excel3cb1", "it_excel3cb2", "it_excel3cb3", "it_excelx", "it_excelj",
+            "it29_3", "it30_1", "it30_2", "it30_3", "it30_4", "it30_5", "it30_6", "it30_7", "it30_8", "it31"
+        ];
+    }
+
+    protected function getDefaultData3()
+    {
+        $defaultData3 = [];
+        // Loop through the keys and set them to null
+        foreach ($this->getData3Keys() as $key) {
+            $defaultData3[$key] = null;
+        }
+        return $defaultData3;
+    }
+
+    protected function getData3Keys()
+    {
+        return [
+            "it18_ex",
+        ];
+    }
+
+    protected function getDefaultData4()
+    {
+        $defaultData4 = [];
+        // Loop through the keys and set them to null
+        foreach ($this->getData4Keys() as $key) {
+            $defaultData4[$key] = null;
+        }
+        return $defaultData4;
+    }
+
+    protected function getData4Keys()
+    {
+        return [
+            "it_excel1", "it_excel2", "it_excel3cb1", "it_excel3cb2", "it_excel3cb3",  "it_excelj",
+        ];
+    }
+
+    protected function getDefaultData5()
+    {
+        $defaultData5 = [];
+        // Loop through the keys and set them to null
+        foreach ($this->getData5Keys() as $key) {
+            $defaultData5[$key] = null;
+        }
+        return $defaultData5;
+    }
+
+    protected function getData5Keys()
+    {
+        return [
+            "it_excelex"
         ];
     }
 }

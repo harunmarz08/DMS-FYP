@@ -18,28 +18,6 @@
         }
     </style>
     <div>appendix</div>
-    @switch(session('status'))
-        @case('task-assigned')
-            <div class="max-w-8xl">
-                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-white bg-green-400 border border-green-400 rounded-md p-2">
-                    {{ __('Task Assigned.') }}
-                </p>
-            </div>
-        @break
-
-        @case('task-unassigned')
-            <div class="max-w-8xl">
-                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-800 bg-gray-400 border border-gray-400 rounded-md p-2">
-                    {{ __('Task Unassigned.') }}
-                </p>
-            </div>
-        @break
-
-        @default
-            <div></div>
-    @endswitch
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -49,7 +27,7 @@
                         <div class="text-xl font-bold pb-5 pt-3">
                             {{ $project->name }}{{ __(' Main Document') }}
                         </div>
-                        <x-button-link href="" class="mx-1">Compile</x-button-link>
+                        {{-- <x-button-link href="" class="mx-1">Compile</x-button-link> --}}
                         <x-directory color="white">
                             <div class="grid grid-cols-3 grid-rows-2">
                                 <div class="justify-self-start"></div> <!-- Align content to the left -->
@@ -73,7 +51,7 @@
                                                     class="block w-auto bg-white border-2 rounded border-gray-500 appearance-none focus:ring-0 focus:border-gray-300"
                                                     onchange="submitForm('form{{ $template_doc->id }}1')"
                                                     {{ auth()->check() && auth()->user()->role !== 0 ? 'disabled' : '' }}>
-                                                    <option value="default"
+                                                    <option value="unreviewed"
                                                         {{ $template_doc->verification ? '' : 'selected' }}>Not
                                                         reviewed</option>
                                                     <option value="JKAF"
@@ -106,7 +84,7 @@
                                                     class="block w-auto border-2 rounded border-gray-500 appearance-none focus:ring-0 focus:border-gray-300 {{ $template_doc->status == 'Rejected' ? 'bg-red-500' : ($template_doc->status == 'Accepted' ? 'bg-green-500' : '') }}"
                                                     onchange="submitForm('form{{ $template_doc->id }}2')"
                                                     {{ auth()->check() && auth()->user()->role !== 0 ? 'disabled' : '' }}>
-                                                    <option class="bg-gray-100" value="default">-status-</option>
+                                                    <option class="bg-gray-100" value="unverified">-status-</option>
                                                     <option class="bg-green-500" value="Accepted"
                                                         {{ $template_doc->status == 'Accepted' ? 'selected' : '' }}>
                                                         Accepted</option>
@@ -122,30 +100,27 @@
                                                 document.getElementById(formId).submit();
                                             }
                                         </script>
-                                        <div class="padding">
-                                        </div>
+                                        
                                         <div class="justify-self-end pt-2">
-                                            <x-primary-button color="black">download</x-primary-button>
+                                            <x-button-link color="black"
+                                                href="{{ route('project.template.print-download', ['project' => $project, 'template_doc' => $template_doc]) }}" 
+                                                onclick="return confirm('Are you sure you want download document with the current content?')">
+                                                Docx
+                                            </x-button-link>
                                         </div>
-                                        <div class="justify-self-end pt-2">
+                                        <div class="flex justify-end pt-2 space-x-2">
                                             <x-button-link color="white"
                                                 href="{{ route('project.template.KK3', ['project' => $project, 'type' => 'cover', 'template_doc' => $template_doc]) }}">
                                                 Cover
                                             </x-button-link>
-                                        </div>
-                                        <div class="justify-self-end pt-2">
                                             <x-button-link color="white"
                                                 href="{{ route('project.template.KK3', ['project' => $project, 'type' => 'main', 'template_doc' => $template_doc]) }}">
                                                 Main
                                             </x-button-link>
-                                            {{-- <div>
-                                                <x-button-link color="white"
-                                                    href="{{ auth()->check() && auth()->user()->role === 0 ? route('project.template.KK3', ['project' => $project, 'main' => $template_doc]) : '#' }}"
-                                                    @if (!(auth()->check() && auth()->user()->role === 0)) disabled @endif
-                                                    class="{{ !(auth()->check() && auth()->user()->role === 0) ? 'disabled-button' : '' }}">
-                                                    Main
-                                                </x-button-link>
-                                            </div> --}}
+                                            <x-button-link color="white"
+                                                href="{{ route('project.template.KK3', ['project' => $project, 'type' => 'excel', 'template_doc' => $template_doc]) }}">
+                                                Excel
+                                            </x-button-link>
                                         </div>
                                         <div class="justify-self-end pt-2">
                                             @if (auth()->check() && auth()->user()->role === 0)

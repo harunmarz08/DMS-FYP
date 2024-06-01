@@ -12,10 +12,24 @@
             </x-nav-link2>
         </h2>
     </x-slot>
-    <div>appendix</div>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if(isset($statusDraft) && $statusDraft == 'Saved successfully')
+                <div class="max-w-7xl text-center">
+                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => { show = false; {{ isset($statusDraft) ? 'unset($statusDraft);' : '' }} }, 2000)"
+                        class="text-sm text-white bg-green-400 border border-green-400 rounded-md p-2">
+                        {{ __('Saved successfully') }}
+                    </p>
+                </div>
+            @elseif(isset($statusDraft) && $statusDraft == 'Unsuccessful')
+                <div class="max-w-7xl text-center">
+                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => { show = false; {{ isset($statusDraft) ? 'unset($statusDraft);' : '' }} }, 2000)"
+                        class="text-sm text-gray-800 bg-red-500 border border-red-500 rounded-md p-2">
+                        {{ __('Unsuccessful.') }}
+                    </p>
+                </div>
+            @endif
             <div class="py-2">
                 <form id="multi-action-form" method="POST">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -400,7 +414,44 @@
                                     <h1 class="text-l font-semibold mb-4">18.13. Konsolidasi atau Segregasi.</h1>
                                     <x-expanding-textarea placeholder="Type here..." class="w-full" name="it18_13" :value="$template_contents->data2['it18_13']"/>
                                     <h1 class="text-l font-semibold mb-4">18.14. Lain-lain justifikasi yang berkaitan.</h1>
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it18_14" :value="$template_contents->data2['it18_14']"/>                                    
+                                    {{-- <x-expanding-textarea placeholder="Type here..." class="w-full" name="it18_14" :value="$template_contents->data2['it18_14']"/> --}}
+                                    
+                                        <div id="inputContainer">
+                                            <!-- Display existing data3['it18_ex'] fields -->
+                                            @if(isset($template_contents->data3['it18_ex']))
+                                                @foreach($template_contents->data3['it18_ex'] as $index => $value)
+                                                    <div class="input-group" id="input-group-{{ $index }}">
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it18_ex[{{ $index }}]" :value="$value" />
+                                                        <button type="button" class="remove-btn" onclick="removeInput({{ $index }})">Remove</button>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                        <button type="button" class="btn" id="add">Add</button>
+                                        
+                                        <script>
+                                            var i = {{ isset($template_contents->data3['it18_ex']) ? count($template_contents->data3['it18_ex']) : 0 }};
+                                        
+                                            document.getElementById('add').addEventListener('click', function () {
+                                                var container = document.createElement('div');
+                                                container.className = 'input-group';
+                                                container.id = 'input-group-' + i;
+                                                container.innerHTML = `
+                                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it18_ex[${i}]" />
+                                                    <button type="button" class="remove-btn" onclick="removeInput(${i})">Remove</button>
+                                                `;
+                                                document.getElementById('inputContainer').appendChild(container);
+                                                i++;
+                                            });
+                                        
+                                            function removeInput(index) {
+                                                var element = document.getElementById('input-group-' + index);
+                                                if (element) {
+                                                    element.remove();
+                                                }
+                                            }
+                                        </script>
+                                                                        
                                 </div>
                             </x-directory>
 
@@ -661,7 +712,7 @@
                                                         </x-modal>
                                                     </td>
                                                     <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="itt22_6x" :value="$template_contents->data2['itt22_6x']"/>
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it22_6x" :value="$template_contents->data2['it22_6x']"/>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -737,7 +788,7 @@
                                             </tbody>
                                         </table><br>
                                     </div>
-                                    <h1 class="text-l font-semibold mb-4">22.3. Lampirkan struktur kurikulum dan pelan pengajian terkini. </h1>
+                                    <h1 class="text-l font-semibold mb-4">22.3. Lampirkan struktur kurikulum dan pelan pengajian terkini. &#40;Isi nama lampiran cth. Lampiran S,Lampiran 22&#41; </h1>
                                     <x-expanding-textarea placeholder="Type here..." class="w-full" name="it22_8" :value="$template_contents->data2['it22_8']"/>
                                 </div>
                             </x-directory>
@@ -1014,87 +1065,14 @@
                         </div>
                     </div>
 
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-2">
-                        <div class="p-4 m-4">
-                            <h2 class="text-lg font-medium text-gray-900 py-2">
-                                {{ __('PEMBANGUNAN PROGRAM BERTERASKAN KERANGKA EXCEL') }}
-                            </h2>
-                            {{-- Excel 1 --}}
-                            <x-directory color="white" class="grid grid-cols-6">
-                                <div class="justify-self-left col-span-2">1. ADAKAH PEMBANGUNAN /SEMAKAN PROGRAM INI MENERAPKAN KERANGKA EXCEL?</div>
-                                <div class="justify-self-left col-span-4 ml-2">
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excel1" :value="$template_contents->data2['it_excel1']"/>
-                                </div>
-                            </x-directory>
-
-                            {{-- Excel 2 --}}
-                            <x-directory color="white" class="grid grid-cols-6">
-                                <div class="justify-self-left col-span-2">2. APAKAH TERAS EXCEL YANG DITERAPKAN DALAM PEMBANGUNAN/SEMAKAN PROGRAM INI?</div>
-                                <div class="justify-self-left col-span-4 ml-2">
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excel2" :value="$template_contents->data2['it_excel2']"/>
-                                </div>
-                            </x-directory>
-
-                            {{-- Excel 3 - Table --}}
-                            <x-directory color="white" class="grid grid-cols-6">
-                                <div class="justify-self-left col-span-2">30. TARIKH SEMAKAN KURIKULUM DILULUSKAN</div>
-                                <div class="justify-self-left col-span-4 ml-2">
-                                    <h1 class="text-l font-semibold mb-4">Nyatakan lokasi program akademik yang akan dijalankan.</h1>
-                                    <div class="overflow-x-auto">
-                                        <table class="table-fixed w-full border-collapse border border-gray-200 ">
-                                            <thead>
-                                                <tr class="bg-gray-100">
-                                                    <th class="border border-gray-300 px-4 py-2 w-1/4">TERAS</th>
-                                                    <th class="border border-gray-300 px-4 py-2 ">TAHAP</th>
-                                                    <th class="border border-gray-300 px-4 py-2 ">Sila tandakan &#40;1 sahaja&#41;</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="border border-gray-300 px-4 py-2" rowspan="4">IDEAL</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="border border-gray-300 px-4 py-2">Industry-Infused</td>
-                                                    <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excel3cb1"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="border border-gray-300 px-4 py-2">Cooperative Education</td>
-                                                    <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excel3cb2"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="border border-gray-300 px-4 py-2">Apprenticeship</td>
-                                                    <td class="border border-gray-300 ">
-                                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excel3cb3"/>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div><br>
-                                    <h1 class="text-l font-semibold mb-4">Nyatakan nama kursus yang terlibat dalam Kerangka EXCEL.</h1>
-                                    {{-- Mulitple Input --}}
-                                    <div class="justify-self-left col-span-4 ml-2">
-                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelx" :value="$template_contents->data2['it_excelx']"/>
-                                    </div>
-                                    <h1 class="text-l font-semibold mb-4">Justifikasi:</h1>
-                                    <div class="justify-self-left col-span-4 ml-2">
-                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelj" :value="$template_contents->data2['it_excelj']"/>
-                                    </div>
-                                </div>
-                            </x-directory>
-                        </div>
-                    </div>
                     <div class="fixed bottom-0 left-0 right-0 bg-white shadow-lg">
                         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div class="flex justify-end py-4">
                                 <x-secondary-button id="save-draft" color="black"
                                     onclick="submitForm('{{ route('project.template.save-draft-main',['project' => $project]) }}')"
                                     class="mx-1">Save Draft</x-secondary-button>
-                                <x-secondary-button color="black" class="mx-1">Preview</x-secondary-button>
-                                <x-secondary-button color="black" class="mx-1">temp</x-secondary-button>
+                                {{-- <x-secondary-button color="black" class="mx-1">Preview</x-secondary-button>
+                                <x-secondary-button color="black" class="mx-1">temp</x-secondary-button> --}}
                             </div>
                         </div>
                     </div>

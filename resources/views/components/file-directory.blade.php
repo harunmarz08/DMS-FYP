@@ -10,7 +10,7 @@
 @endphp
 
 <div></div>
-<div {{ $attributes->merge(['class' => "overflow-hidden border-t border-b $barColor border-gray-900 p-3 grid-col-subgrid col-span-5"]) }}>
+<div {{ $attributes->merge(['class' => "overflow-hidden border-t border-b $barColor border-gray-900 p-3 grid-col-subgrid col-span-7"]) }}>
     <div class="grid grid-flow-col">
         {{ $slot }}
     </div>

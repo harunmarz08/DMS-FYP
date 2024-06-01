@@ -1,9 +1,9 @@
-@props(['disabled' => false, 'value' =>''])
+@props(['disabled' => false, 'value' =>'', 'numCols' => 100 ])
 
 @php
     // Calculate the number of rows based on the length of the text
     $numChars = strlen($value);
-    $numCols = 100; // Set the number of characters per row
+    $numCols = intval($numCols); // Set the number of characters per row
     $numRows = ceil($numChars / $numCols); // Calculate the number of rows needed
     $rows = max($numRows, 1); // Ensure at least one row
 @endphp

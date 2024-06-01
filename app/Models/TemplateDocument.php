@@ -18,6 +18,8 @@ class TemplateDocument extends Model
         'data1',
         'data2',
         'data3',
+        'data4',
+        'data5',
         'version',
     ];
 
@@ -25,6 +27,8 @@ class TemplateDocument extends Model
         'data1' => 'array',
         'data2' => 'array',
         'data3' => 'array',
+        'data4' => 'array',
+        'data5' => 'array',
     ];
 
     public function project()
