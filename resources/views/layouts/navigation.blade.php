@@ -6,7 +6,12 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('welcome') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <div class=" pt-5">
+                            <div>
+                                <img src="{{ asset('UTM-LOGO2.png') }}" alt="UTM Logo" class="w-full h-auto" 
+                                style="height: 40px; width: auto;"><br>
+                            </div>
+                        </div>
                     </a>
                 </div>
                 <div></div>

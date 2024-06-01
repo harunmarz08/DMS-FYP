@@ -54,10 +54,10 @@ class DocumentController extends Controller
         $templateContent = TemplateDocument::where('id', $template_doc->id)->firstOrFail();
         $data1 = $templateContent->data1;
         $data2 = $templateContent->data2;
-        $data3 = $templateContent->data3; // extra inputs for cloning
+        $data3 = $templateContent->data3 ?? []; // extra inputs for cloning
         $data4 = $templateContent->data4;
-        $data5 = $templateContent->data5; // extra inputs for cloning
-        // dd($data5['it_excelex']);
+        $data5 = $templateContent->data5 ?? []; // extra inputs for cloning
+
         foreach ($data1 as $key => $value) {
             $kertas_kerja->setValue($key, $value);
         }
@@ -70,21 +70,24 @@ class DocumentController extends Controller
             $kertas_kerja->setValue($key, $value);
         }
 
-
-        // Uncomment and adjust this section if you need to clone blocks and set values for $data3
-        $clone1 = count($data3['it18_ex']);
-        $kertas_kerja->cloneBlock('it18ex', $clone1, true, true);
-        $clone2 = count($data5['it_excelex']);
-        $kertas_kerja->cloneBlock('itexcelextra', $clone2, true, true);
-
-        for ($i = 0; $i < $clone1; $i++) {
-            // Assuming $data3['it18_ex'] is an array of values
-            $kertas_kerja->setValue('it18_ex#' . ($i + 1), $data3['it18_ex'][$i]);
+        if (is_array($data3) && isset($data3['it18_ex'])) {
+            $clone1 = count($data3['it18_ex']);
+            if ($clone1 > 0) {
+                $kertas_kerja->cloneBlock('it18ex', $clone1, true, true);
+                for ($i = 0; $i < $clone1; $i++) {
+                    $kertas_kerja->setValue('it18_ex#' . ($i + 1), $data3['it18_ex'][$i]);
+                }
+            }
         }
 
-        for ($i = 0; $i < $clone2; $i++) {
-            // Assuming $data3['it18_ex'] is an array of values
-            $kertas_kerja->setValue('it_excelex#' . ($i + 1), $data5['it_excelex'][$i]);
+        if (is_array($data5) && isset($data5['it_excelex'])) {
+            $clone2 = count($data5['it_excelex']);
+            if ($clone2 > 0) {
+                $kertas_kerja->cloneBlock('itexcelextra', $clone2, true, true);
+                for ($i = 0; $i < $clone2; $i++) {
+                    $kertas_kerja->setValue('it_excelex#' . ($i + 1), $data5['it_excelex'][$i]);
+                }
+            }
         }
 
         // Temporary file path to store the generated document

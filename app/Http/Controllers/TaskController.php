@@ -108,7 +108,7 @@ class TaskController extends Controller
             // Adjust the query to exclude the sender's ID
             $users = User::where('id', '!=', $senderId)->get();
             // Send the notification to the selected users
-            Notification::send($users, new NewTaskUpload($task->name, $project->name));
+            Notification::send($users, new NewTaskUpload($task, $project));
 
             return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'file_uploaded');
         } else {

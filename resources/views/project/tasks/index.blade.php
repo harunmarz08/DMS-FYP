@@ -17,7 +17,7 @@
             opacity: 0.6;
         }
     </style>
-    <div>appendix</div>
+    <div></div>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -146,6 +146,7 @@
                         </div>
                         {{-- Add new Task --}}
                         <div class="flex justify-end">
+                            @if(auth()->user()->role != 2)
                             <x-secondary-button x-data=""
                                 x-on:click.prevent="$dispatch('open-modal', 'new-task')">{{ __('Add New') }}
                             </x-secondary-button>
@@ -178,6 +179,7 @@
                                     </div>
                                 </form>
                             </x-modal>
+                            @endif
                         </div>
                         {{-- Task list  --}}
                         @if (empty(session('tasks'))){{-- if session tasks is empty --}}
@@ -193,6 +195,7 @@
                                             <div class="flex flex-row pr-2">
                                                 <div class="content-center pr-2">{{ $task->name }}</div>
                                                 <div class="content-center pr-2">
+                                                    @if(auth()->user()->role != 2)
                                                     <a class="cursor-pointer" x-data=""
                                                         x-on:click.prevent="$dispatch('open-modal', 'edit-task-{{ $task->id }}')">
                                                         <?xml version="1.0" encoding="UTF-8"?>
@@ -204,6 +207,7 @@
                                                         </svg>
 
                                                     </a>
+                                                    @endif
                                                     <x-modal name="edit-task-{{ $task->id }}" focusable>
                                                         <form method="post"
                                                             action="{{ route('task.update', ['task' => $task, 'project' => $project]) }}"
@@ -243,6 +247,7 @@
 
                                         </div>
                                         <div class="flex flex-row justify-end ">
+                                            @if(auth()->user()->role != 2)
                                             {{-- Upload --}}
                                             <div class="content-center pr-2">
                                                 <x-primary-button x-data=""
@@ -315,7 +320,7 @@
                                                     </form>
                                                 </x-modal>
                                             </div>
-
+                                            @endif
                                         </div>
 
                                         @foreach ($task->documents as $document)
@@ -343,6 +348,7 @@
                                                     </form> --}}
 
                                                     {{-- Delete Document --}}
+                                                    @if(auth()->user()->role != 2)
                                                     <div class="content-center px-2">
                                                         <a class="cursor-pointer" x-data=""
                                                             x-on:click.prevent="$dispatch('open-modal', 'delete-task-{{ $document->id }}')">
@@ -378,6 +384,7 @@
                                                             </form>
                                                         </x-modal>
                                                     </div>
+                                                    @endif
                                                 </div>
                                             </x-file-directory>
                                         @endforeach

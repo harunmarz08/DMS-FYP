@@ -29,16 +29,16 @@
                                     method="post">
                                     @csrf
                                     @method('post')
-                                    <button type="submit">Mark as Read</button>
+                                    <button type="submit" class="border">Mark as Read</button>
                                 </form>
-                                <form id="unread_notification_{{ $notification->id }}"
+                                {{-- <form id="unread_notification_{{ $notification->id }}"
                                     name="unread_notification_{{ $notification->id }}"
                                     action="{{ route('notifications.unread', ['id' => $notification->id]) }}"
                                     method="post">
                                     @csrf
                                     @method('post')
-                                    <button type="submit">Mark as Unread</button>
-                                </form>
+                                    <button type="submit" class="border">Mark as Unread</button>
+                                </form> --}}
                             </x-directory>
                         @endforeach
 
