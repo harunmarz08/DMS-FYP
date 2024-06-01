@@ -102,8 +102,21 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function setStatus(Request $request, Project $project)
     {
+        if ($project->status === 'On-going') {
+            $project->status = 'Completed';
+            $statusMessage = 'Marked as Completed';
+        } else {
+            $project->status = 'On-going';
+            $statusMessage = 'Marked as On-going';
+        }
+    
+        // Save the updated status
+        $project->save();
+    
+        // Redirect back with a status message
+        return redirect()->route('project.index')->with('status', $statusMessage);
     }
 
     /**

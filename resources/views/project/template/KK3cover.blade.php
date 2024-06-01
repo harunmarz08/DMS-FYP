@@ -47,12 +47,12 @@
                                 <h1 class="text-l font-semibold mb-4 ">Jenis Mesyuarat &#40;Cth: JAWATANKUASA KURIKULUM
                                     UNIVERSITI&#41;</h1>
                                 <x-expanding-textarea placeholder="Type here..." class="w-full uppercase"
-                                    :numCols='50' name="cover" :value="strtoupper($template_contents->data1['cover'])" />
+                                    :numCols='50' name="cover" :value="strtoupper($template_contents->data1['cover'])" :disabled="auth()->user()->role == 2"/>
                             </div>
                             <div class="text-left mx-2">
                                 <h1 class="text-l font-semibold mb-4 ">Nama Program &#40;Cth: SECJH etc.&#41;</h1>
                                 <x-expanding-textarea placeholder="Type here..." class="w-full uppercase"
-                                    :numCols='50' name="nama_program" :value="strtoupper($template_contents->data1['nama_program'])" />
+                                    :numCols='50' name="nama_program" :value="strtoupper($template_contents->data1['nama_program'])" :disabled="auth()->user()->role == 2"/>
                             </div>
                         </x-directory>
 
@@ -83,15 +83,15 @@
                                                     </td>
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..." class="w-full"
-                                                            :numCols='30' name="nama1" :value="$template_contents->data1['nama1']" />
+                                                            :numCols='30' name="nama1" :value="$template_contents->data1['nama1']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..." class="w-full"
-                                                            :numCols='30' name="nama2" :value="$template_contents->data1['nama2']" />
+                                                            :numCols='30' name="nama2" :value="$template_contents->data1['nama2']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..." class="w-full"
-                                                            :numCols='30' name="nama3" :value="$template_contents->data1['nama3']" />
+                                                            :numCols='30' name="nama3" :value="$template_contents->data1['nama3']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -100,15 +100,15 @@
                                                     </td>
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..." class="w-full"
-                                                            :numCols='30' name="jawatan1" :value="$template_contents->data1['jawatan1']" />
+                                                            :numCols='30' name="jawatan1" :value="$template_contents->data1['jawatan1']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..." class="w-full"
-                                                            :numCols='30' name="jawatan2" :value="$template_contents->data1['jawatan2']" />
+                                                            :numCols='30' name="jawatan2" :value="$template_contents->data1['jawatan2']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..." class="w-full"
-                                                            :numCols='30' name="jawatan3" :value="$template_contents->data1['jawatan3']" />
+                                                            :numCols='30' name="jawatan3" :value="$template_contents->data1['jawatan3']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -149,11 +149,11 @@
                                                     </td>
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..." class="w-full"
-                                                            :numCols='30' name="c_pp_name" :value="$template_contents->data1['c_pp_name']" />
+                                                            :numCols='30' name="c_pp_name" :value="$template_contents->data1['c_pp_name']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..." class="w-full"
-                                                            :numCols='30' name="c_dk_name" :value="$template_contents->data1['c_dk_name']" />
+                                                            :numCols='30' name="c_dk_name" :value="$template_contents->data1['c_dk_name']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -174,12 +174,12 @@
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..."
                                                             class="w-full" :numCols='30' name="c_pp_off"
-                                                            :value="$template_contents->data1['c_pp_off']" />
+                                                            :value="$template_contents->data1['c_pp_off']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..."
                                                             class="w-full" :numCols='50' name="c_dk_off"
-                                                            :value="$template_contents->data1['c_dk_off']" />
+                                                            :value="$template_contents->data1['c_dk_off']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -189,12 +189,12 @@
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..."
                                                             class="w-full" :numCols='30' name="c_pp_ph"
-                                                            :value="$template_contents->data1['c_pp_ph']" />
+                                                            :value="$template_contents->data1['c_pp_ph']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..."
                                                             class="w-full" :numCols='50' name="c_dk_ph"
-                                                            :value="$template_contents->data1['c_dk_ph']" />
+                                                            :value="$template_contents->data1['c_dk_ph']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -204,12 +204,12 @@
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..."
                                                             class="w-full" :numCols='30' name="c_pp_mail"
-                                                            :value="$template_contents->data1['c_pp_mail']" />
+                                                            :value="$template_contents->data1['c_pp_mail']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                     <td class="border border-gray-300">
                                                         <x-expanding-textarea placeholder="Type here..."
                                                             class="w-full" :numCols='50' name="c_dk_mail"
-                                                            :value="$template_contents->data1['c_dk_mail']" />
+                                                            :value="$template_contents->data1['c_dk_mail']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -221,9 +221,15 @@
                         <div class="fixed bottom-0 left-0 right-0 bg-white shadow-lg">
                             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                                 <div class="flex justify-end py-4">
-                                    <x-secondary-button id="save-draft" color="black"
-                                        onclick="submitForm('{{ route('project.template.save-draft-cover', ['project' => $project]) }}')"
-                                        class="mx-1">Save Draft</x-secondary-button>
+                                    @if(auth()->user()->role != 2)
+                                        <div class="flex justify-end py-4">
+                                            <x-secondary-button id="save-draft" color="black"
+                                                onclick="submitForm('{{ route('project.template.save-draft-main', ['project' => $project]) }}')"
+                                                class="mx-1">
+                                                Save Draft
+                                            </x-secondary-button>
+                                        </div>
+                                    @endif
                                     {{-- <x-secondary-button color="black" class="mx-1">Preview</x-secondary-button>
                                     <x-secondary-button color="black" class="mx-1">temp</x-secondary-button> --}}
                                 </div>

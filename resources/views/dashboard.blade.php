@@ -4,7 +4,7 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    <div>dashboard</div>
+    <div></div>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
             @auth
@@ -21,9 +21,8 @@
                             <!-- Display notification data -->
 
                             <x-directory :color="$notification->read_at ? 'gray' : 'white'">
-
-                                Notification ID: {{ $notification->id }} <br>
-                                Notification Data: {{ $notification->data['task_id'] }} <br>
+                                New appendix uploaded at task {{ $notification->data['task_name'] ?? 'null' }}<br>
+                                Project Name {{ $notification->data['project_name'] ?? 'null' }}<br>
                                 <form id="read_notification_{{ $notification->id }}"
                                     name="read_notification_{{ $notification->id }}"
                                     action="{{ route('notifications.read', ['id' => $notification->id]) }}"

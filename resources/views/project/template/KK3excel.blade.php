@@ -47,7 +47,7 @@
                             <x-directory color="white" class="grid grid-cols-6">
                                 <div class="justify-self-left col-span-2">1. ADAKAH PEMBANGUNAN /SEMAKAN PROGRAM INI MENERAPKAN KERANGKA EXCEL?</div>
                                 <div class="justify-self-left col-span-4 ml-2">
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excel1" :value="$template_contents->data4['it_excel1']" />
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excel1" :value="$template_contents->data4['it_excel1']" :disabled="auth()->user()->role == 2"/>
                                 </div>
                             </x-directory>
 
@@ -55,7 +55,7 @@
                             <x-directory color="white" class="grid grid-cols-6">
                                 <div class="justify-self-left col-span-2">2. APAKAH TERAS EXCEL YANG DITERAPKAN DALAM PEMBANGUNAN/SEMAKAN PROGRAM INI?</div>
                                 <div class="justify-self-left col-span-4 ml-2">
-                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excel2" :value="$template_contents->data4['it_excel2']" />
+                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excel2" :value="$template_contents->data4['it_excel2']" :disabled="auth()->user()->role == 2"/>
                                 </div>
                             </x-directory>
 
@@ -83,7 +83,7 @@
                                                     <td class="border border-gray-300 px-4 py-2">Industry-Infused</td>
                                                     <td class="border border-gray-300 ">
                                                         <x-expanding-textarea placeholder="Type here..." class="w-full"
-                                                            name="it_excel3cb1" :value="$template_contents->data4['it_excel3cb1']" />
+                                                            name="it_excel3cb1" :value="$template_contents->data4['it_excel3cb1']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -91,14 +91,14 @@
                                                     </td>
                                                     <td class="border border-gray-300 ">
                                                         <x-expanding-textarea placeholder="Type here..." class="w-full"
-                                                            name="it_excel3cb2" :value="$template_contents->data4['it_excel3cb2']" />
+                                                            name="it_excel3cb2" :value="$template_contents->data4['it_excel3cb2']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="border border-gray-300 px-4 py-2">Apprenticeship</td>
                                                     <td class="border border-gray-300 ">
                                                         <x-expanding-textarea placeholder="Type here..." class="w-full"
-                                                            name="it_excel3cb3" :value="$template_contents->data4['it_excel3cb3']" />
+                                                            name="it_excel3cb3" :value="$template_contents->data4['it_excel3cb3']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -111,8 +111,8 @@
                                         @if(isset($template_contents->data5['it_excelex']))
                                             @foreach($template_contents->data5['it_excelex'] as $index => $value)
                                                 <div class="input-group" id="input-group-{{ $index }}">
-                                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelex[{{ $index }}]" :value="$value" />
-                                                    <button type="button" class="remove-btn" onclick="removeInput({{ $index }})">Remove</button>
+                                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelex[{{ $index }}]" :value="$value" :disabled="auth()->user()->role == 2"/>
+                                                    <button type="button" class="remove-btn" onclick="removeInput({{ $index }})" {{ auth()->user()->role == 2 ? 'disabled' : '' }}>Remove</button>
                                                 </div>
                                             @endforeach
                                         @endif
@@ -128,7 +128,7 @@
                                             container.id = 'input-group-' + i;
                                             container.innerHTML = `
                                                 <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelex[${i}]" />
-                                                <button type="button" class="remove-btn" onclick="removeInput(${i})">Remove</button>
+                                                <button type="button" class="remove-btn" onclick="removeInput(${i})" {{ auth()->user()->role == 2 ? 'disabled' : '' }}>Remove</button>
                                             `;
                                             document.getElementById('inputContainer').appendChild(container);
                                             i++;
@@ -144,7 +144,7 @@
 
                                     <h1 class="text-l font-semibold mb-4">Justifikasi:</h1>
                                     <div class="justify-self-left col-span-4 ml-2">
-                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelj" :value="$template_contents->data4['it_excelj']" />
+                                        <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelj" :value="$template_contents->data4['it_excelj']" :disabled="auth()->user()->role == 2"/>
                                     </div>
                                 </div>
                             </x-directory>
@@ -153,9 +153,15 @@
                     <div class="fixed bottom-0 left-0 right-0 bg-white shadow-lg">
                         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div class="flex justify-end py-4">
-                                <x-secondary-button id="save-draft" color="black"
-                                    onclick="submitForm('{{ route('project.template.save-draft-excel', ['project' => $project]) }}')"
-                                    class="mx-1">Save Draft</x-secondary-button>
+                                @if(auth()->user()->role != 2)
+                                    <div class="flex justify-end py-4">
+                                        <x-secondary-button id="save-draft" color="black"
+                                            onclick="submitForm('{{ route('project.template.save-draft-main', ['project' => $project]) }}')"
+                                            class="mx-1">
+                                            Save Draft
+                                        </x-secondary-button>
+                                    </div>
+                                @endif
                                 {{-- <x-secondary-button color="black" class="mx-1">Preview</x-secondary-button>
                                 <x-secondary-button color="black" class="mx-1">temp</x-secondary-button> --}}
                             </div>

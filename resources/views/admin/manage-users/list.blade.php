@@ -5,7 +5,7 @@
         </h2>
 
     </x-slot>
-    <div>admin user list</div>
+    <div></div>
     @if (session('status') === 'user-updated')
         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
             class="text-sm text-gray-800 bg-green-400 border border-green-400 rounded-md p-2">{{ __('User updated.') }}
@@ -29,12 +29,12 @@
             {{-- <div class="grid grid-cols-1 sm:grid-cols-2 gap-6"> --}}
             <div class="py-2 flex justify-between">
                 <div class="py-2 ">
-                    <form action="#" method="post" class="flex items-center">
+                    {{-- <form action="#" method="post" class="flex items-center">
                         <x-text-input id="search" class="block w-auto" type="text" name="search" autofocus
                             autocomplete="off" placeholder="Search" />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                        <x-button-link class="py-3">a</x-button-link>
-                    </form>
+                        <x-button-link class="py-3">Search</x-button-link>
+                    </form> --}}
                 </div>
 
                 <div class="py-2">
@@ -55,7 +55,8 @@
                             <x-table.td>{{ $user->id }}</x-table.td>
                             <x-table.td>{{ $user->name }}</x-table.td>
                             <x-table.td>{{ $user->email }}</x-table.td>
-                            <x-table.td>{{ $user->role == 0 ? 'Director' : ($user->role == -1 ? 'Default' : 'User') }}
+                            <x-table.td>
+                                {{ $user->role == 0 ? 'Director' : ($user->role == -1 ? 'Default' : ($user->role == 2 ? 'TDA' : 'User')) }}
                             </x-table.td>
                             <x-table.td align="right">{{ $user->created_at }}</x-table.td>
                             <x-table.td align="right">{{ $user->updated_at }}</x-table.td>

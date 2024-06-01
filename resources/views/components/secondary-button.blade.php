@@ -1,4 +1,4 @@
-@props(['color' => 'white'])
+@props(['color' => 'white','disabled' => false])
 
 @php
     $buttonColor = [
