@@ -39,7 +39,7 @@
             <div class="max-w-8xl mx-auto p-6 lg:p-8">
                 <div class="flex justify-center ">
                     <div>
-                        <img src="{{ asset('LOGO-UTM.png') }}" alt="UTM Logo" class="w-full h-auto" 
+                        <img src="{{ asset('images/LOGO-UTM.png') }}" alt="UTM Logo" class="w-full h-auto" 
                         style="height: 25vh; width: auto;"><br>
                         <div class="text-center text-xl text-gray-500 dark:text-gray-400">
                             Faculty of Computing <br>
