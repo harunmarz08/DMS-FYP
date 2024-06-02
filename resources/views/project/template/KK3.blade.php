@@ -422,7 +422,7 @@
                                                 @foreach($template_contents->data3['it18_ex'] as $index => $value)
                                                     <div class="input-group" id="input-group-{{ $index }}">
                                                         <x-expanding-textarea placeholder="Type here..." class="w-full" name="it18_ex[{{ $index }}]" :value="$value" :disabled="auth()->user()->role == 2"/>
-                                                        <button type="button" class="remove-btn border" onclick="removeInput({{ $index }})" {{ auth()->user()->role == 2 ? 'disabled' : '' }}>Remove</button>
+                                                        {{-- <button type="button" class="remove-btn border" onclick="removeInput({{ $index }})" {{ auth()->user()->role == 2 ? 'disabled' : '' }}>Remove</button> --}}
                                                     </div>
                                                 @endforeach
                                             @endif
@@ -442,8 +442,7 @@
                                                 container.className = 'input-group';
                                                 container.id = 'input-group-' + i;
                                                 container.innerHTML = `
-                                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it18_ex[${i}]" />
-                                                    <button type="button" class="remove-btn border" onclick="removeInput(${i})" {{ auth()->user()->role == 2 ? 'disabled' : '' }}>Remove</button>
+                                                    <x-expanding-textarea placeholder="Type here..." class="w-full" name="it18_ex[${i}]" />                                                    
                                                 `;
                                                 document.getElementById('inputContainer').appendChild(container);
                                                 i++;

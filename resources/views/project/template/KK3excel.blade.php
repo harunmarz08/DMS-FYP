@@ -112,7 +112,7 @@
                                             @foreach($template_contents->data5['it_excelex'] as $index => $value)
                                                 <div class="input-group" id="input-group-{{ $index }}">
                                                     <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelex[{{ $index }}]" :value="$value" :disabled="auth()->user()->role == 2"/>
-                                                    <button type="button" class="remove-btn" onclick="removeInput({{ $index }})" {{ auth()->user()->role == 2 ? 'disabled' : '' }}>Remove</button>
+                                                    {{-- <button type="button" class="remove-btn" onclick="removeInput({{ $index }})" {{ auth()->user()->role == 2 ? 'disabled' : '' }}>Remove</button> --}}
                                                 </div>
                                             @endforeach
                                         @endif
@@ -127,9 +127,7 @@
                                             container.className = 'input-group';
                                             container.id = 'input-group-' + i;
                                             container.innerHTML = `
-                                                <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelex[${i}]" />
-                                                <button type="button" class="remove-btn" onclick="removeInput(${i})" {{ auth()->user()->role == 2 ? 'disabled' : '' }}>Remove</button>
-                                            `;
+                                                <x-expanding-textarea placeholder="Type here..." class="w-full" name="it_excelex[${i}]" />`;
                                             document.getElementById('inputContainer').appendChild(container);
                                             i++;
                                         });

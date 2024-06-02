@@ -75,7 +75,8 @@ class DocumentController extends Controller
             if ($clone1 > 0) {
                 $kertas_kerja->cloneBlock('it18ex', $clone1, true, true);
                 for ($i = 0; $i < $clone1; $i++) {
-                    $kertas_kerja->setValue('it18_ex#' . ($i + 1), $data3['it18_ex'][$i]);
+                    $value = $data3['it18_ex'][$i] ?? null; // Use null if the key does not exist
+                    $kertas_kerja->setValue('it18_ex#' . ($i+1), $value);
                 }
             }
         }
@@ -85,7 +86,8 @@ class DocumentController extends Controller
             if ($clone2 > 0) {
                 $kertas_kerja->cloneBlock('itexcelextra', $clone2, true, true);
                 for ($i = 0; $i < $clone2; $i++) {
-                    $kertas_kerja->setValue('it_excelex#' . ($i + 1), $data5['it_excelex'][$i]);
+                    $value = $data5['it_excelex'][$i] ?? null; // Use null if the key does not exist
+                    $kertas_kerja->setValue('it_excelex#' . ($i+1), $value);
                 }
             }
         }
@@ -373,8 +375,8 @@ class DocumentController extends Controller
             "cover", "nama_program",
             "nama1", "nama2", "nama3",
             "jawatan1", "jawatan2", "jawatan3",
-            "c_pp_name","c_pp_jawatan", "c_pp_off", "c_pp_ph", "c_pp_mail",
-            "c_dk_name","c_dk_jawatan", "c_dk_off", "c_dk_ph", "c_dk_mail",
+            "c_pp_name", "c_pp_jawatan", "c_pp_off", "c_pp_ph", "c_pp_mail",
+            "c_dk_name", "c_dk_jawatan", "c_dk_off", "c_dk_ph", "c_dk_mail",
         ];
     }
 
