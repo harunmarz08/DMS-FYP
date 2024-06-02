@@ -160,7 +160,7 @@
                                         <table class="table-fixed border-collapse border border-gray-200 w-1/3">
                                             <thead>
                                                 <tr class="bg-gray-100">
-                                                    <th class="border border-gray-300 px-4 py-2 w-1/5">Kod</th>
+                                                    <th class="border border-gray-300 px-4 py-2 w-1/5">Nama Penganugerahan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -178,7 +178,7 @@
                                         <table class="table-fixed border-collapse border border-gray-200 w-1/3">
                                             <thead>
                                                 <tr class="bg-gray-100">
-                                                    <th class="border border-gray-300 px-4 py-2 w-1/5">Kod</th>
+                                                    <th class="border border-gray-300 px-4 py-2 w-1/5">Nama Penganugerahan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -484,9 +484,9 @@
                             <x-directory color="white" class="grid grid-cols-6">
                                 <div class="justify-self-left col-span-2">21. HASIL PEMBELAJARAN PROGRAM</div>
                                 <div class="justify-self-left col-span-4 ml-2">
-                                    <h1 class="text-l font-semibold mb-4">21.1. Nyatakan lokasi program akademik yang akan dijalankan.</h1>
+                                    <h1 class="text-l font-semibold mb-4">21.1. Nyatakan keupayaan keterampilan kompetensi khusus &#40;specific competencies&#41; yang akan ditunjukkan oleh pelajar di akhir program, seperti domain yang dinyatakan dalam MQF dan standard program &#40;jika berkaitan&#41;.</h1>
                                     <x-expanding-textarea placeholder="Type here..." class="w-full" name="it21_1" :value="$template_contents->data2['it21_1']" :disabled="auth()->user()->role == 2" />
-                                    <h1 class="text-l font-semibold mb-4">21.2. Nyatakan lokasi baharu yang dicadangkan &#40;jika berkaitan&#41;</h1>
+                                    <h1 class="text-l font-semibold mb-4">21.2. Tunjukkan matriks Hasil Pembelajaran Program &#40;PLO&#41; lawan Objektif Pendidikan Program (PEO).</h1>
                                     <x-expanding-textarea placeholder="Type here..." class="w-full" name="it21_2" :value="$template_contents->data2['it21_2']" :disabled="auth()->user()->role == 2"/>
                                     <h1 class="text-l font-semibold mb-4">21.3. Nyatakan kelulusan Audit Lokasi &#40;sekiranya berkaitan&#41;</h1>
                                     <x-expanding-textarea placeholder="Type here..." class="w-full" name="it21_3" :value="$template_contents->data2['it21_3']" :disabled="auth()->user()->role == 2"/>

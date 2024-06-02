@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -40,7 +41,7 @@ class ManageUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['required', 'integer'],
         ]);
@@ -83,12 +84,12 @@ class ManageUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
         ]);
-        
+
         $data = [
             'name' => $request->name,
             'email' => $request->email,
         ];
-    
+
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
@@ -101,12 +102,20 @@ class ManageUserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
-        // $user = $request->user();
+        $admin = Admin::findOrFail(auth()->user()->id); // Example: Retrieve the authenticated user
+        $storedPasswordHash = $admin->password;
 
-        $user->delete();
+        // Hash the provided password for comparison
+        $providedPassword = $request->password;
+        $providedPasswordHash = Hash::make($providedPassword);
 
-        return redirect(route('admin.manage-users.list'))->with('status', 'user-deleted');
+        if (Hash::check($providedPassword, $storedPasswordHash)) {
+            $user->delete();
+            return redirect(route('admin.manage-users.list'))->with('status', 'user-deleted');
+        } else {
+            return redirect(route('admin.manage-users.list'))->with('status', 'wrong-password');
+        }
     }
 }

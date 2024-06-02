@@ -52,7 +52,7 @@
                 <!-- Password -->
                 <div class="mt-4">
                     <x-input-label for="password" :value="__('Password')" />
-                    <x-text-input id="password" class="block mt-1 w-auto" type="text" name="password" 
+                    <x-text-input id="password" class="block mt-1 w-auto" type="password" name="password" 
                         autocomplete="off" placeholder="Optional"/>
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
@@ -61,7 +61,7 @@
                 <div class="mt-4">
                     <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 
-                    <x-text-input id="password_confirmation" class="block mt-1 w-auto" type="text"
+                    <x-text-input id="password_confirmation" class="block mt-1 w-auto" type="password"
                         name="password_confirmation"  autocomplete="off" placeholder="Re-enter password"/>
 
                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />

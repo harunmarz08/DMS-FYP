@@ -160,11 +160,13 @@
                                                     <td class="border border-gray-300 px-4 py-2">
                                                         Jawatan
                                                     </td>
-                                                    <td class="border border-gray-300 px-4 py-2">
-                                                        Jawatan Pegawai Pentadbiran
+                                                    <td class="border border-gray-300">
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full"
+                                                            :numCols='30' name="c_pp_jawatan" :value="$template_contents->data1['c_pp_jawatan']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
-                                                    <td class="border border-gray-300 px-4 py-2">
-                                                        Dekan/Pengarah Fakulti/Pusat Pengajian/Pusat/ Institut
+                                                    <td class="border border-gray-300">
+                                                        <x-expanding-textarea placeholder="Type here..." class="w-full"
+                                                            :numCols='30' name="c_dk_jawatan" :value="$template_contents->data1['c_dk_jawatan']" :disabled="auth()->user()->role == 2"/>
                                                     </td>
                                                 </tr>
                                                 <tr>

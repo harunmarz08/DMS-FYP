@@ -132,7 +132,7 @@
                                             @method('delete')
 
                                             <h2 class="text-lg font-medium text-gray-900 py-2">
-                                                {{ __('Are you sure to delete this project?') }}
+                                                {{ __('Are you sure to delete this project? All data and files will be deleted') }}
                                             </h2>
 
                                             <x-input-label for="password" :value="__('Password')" />

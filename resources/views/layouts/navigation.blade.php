@@ -19,7 +19,7 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @auth('admin')
                         <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-                            {{ __('Dashboard Nav') }}
+                            {{ __('Dashboard') }}
                         </x-nav-link>
                         <x-nav-link :href="route('admin.manage-users.list')" :active="request()->routeIs('admin.manage-users.list')">
                             {{ __('Users') }}

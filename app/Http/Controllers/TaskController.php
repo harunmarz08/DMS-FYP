@@ -234,8 +234,8 @@ class TaskController extends Controller
             "cover", "nama_program",
             "nama1", "nama2", "nama3",
             "jawatan1", "jawatan2", "jawatan3",
-            "c_pp_name", "c_pp_off", "c_pp_ph", "c_pp_mail",
-            "c_dk_name", "c_dk_off", "c_dk_ph", "c_dk_mail",
+            "c_pp_name","c_pp_jawatan", "c_pp_off", "c_pp_ph", "c_pp_mail",
+            "c_dk_name","c_dk_jawatan", "c_dk_off", "c_dk_ph", "c_dk_mail",
         ];
     }
 

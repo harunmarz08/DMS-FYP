@@ -24,6 +24,12 @@
         </p>
     @endif
 
+    @if (session('status') === 'wrong-password')
+        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+            class="text-sm text-gray-100 bg-red-400 border border-red-400 rounded-md p-2">{{ __('Wrong Password.') }}
+        </p>
+    @endif
+
     <div class="pb-12">
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 ">
             {{-- <div class="grid grid-cols-1 sm:grid-cols-2 gap-6"> --}}
@@ -85,8 +91,13 @@
                                         </h2>
 
                                         <p class="mt-1 text-sm text-gray-600">
-                                            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete this account.') }}
+                                            {{ __('Once this account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete this account.') }}
                                         </p>
+
+                                        <x-input-label for="password" :value="__('Password')" />
+                                        <x-text-input id="password" class="block mt-1 w-full" type="password"
+                                            name="password" required autocomplete="current-password" />
+                                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
 
                                         <div class="mt-6 flex justify-end">
                                             <x-secondary-button x-on:click="$dispatch('close')">
