@@ -25,8 +25,7 @@
                                 Project Name {{ $notification->data['project_name'] ?? 'null' }}<br>
                                 <form id="read_notification_{{ $notification->id }}"
                                     name="read_notification_{{ $notification->id }}"
-                                    action="{{ route('notifications.read', ['id' => $notification->id]) }}"
-                                    method="post">
+                                    action="{{ route('notifications.read', ['id' => $notification->id]) }}" method="post">
                                     @csrf
                                     @method('post')
                                     <button type="submit" class="border">Mark as Read</button>

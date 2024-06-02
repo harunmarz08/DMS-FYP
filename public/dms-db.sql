@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2024 at 01:27 AM
+-- Generation Time: Jun 01, 2024 at 05:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,16 +38,27 @@ CREATE TABLE `admins` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'admin@dms.utm.com', NULL, '$2a$10$GEwMpdMKxCBXQ6UkrJESEOi1ydTaaGfUWLihzrKB0N74zMszJjfVu', NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `assignments`
+-- Table structure for table `documents`
 --
 
-CREATE TABLE `assignments` (
+CREATE TABLE `documents` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `project_id` bigint(20) UNSIGNED NOT NULL,
   `task_id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `filename` text NOT NULL,
+  `file_path` varchar(255) NOT NULL,
+  `version` int(11) NOT NULL,
+  `uploaded_by` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -80,26 +91,22 @@ CREATE TABLE `migrations` (
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `migrations`
+-- Table structure for table `notifications`
 --
 
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
-(3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(5, '2024_03_19_144639_create_product_table', 1),
-(6, '2024_03_19_151054_add_description_to_product_table', 1),
-(7, '2024_03_19_151107_add_price_to_product_table', 1),
-(8, '2024_03_19_152504_add_test_to_product_table', 2),
-(9, '2024_03_20_045647_make_test_column_nullable_in_product_table', 2),
-(10, '2024_03_20_141056_create_admins_table', 2),
-(11, '2024_03_30_162502_add_role_to_users_table', 2),
-(12, '2024_04_01_134419_add_position_to_users_table', 2),
-(13, '2024_04_01_142158_create_projects_table', 2),
-(14, '2024_04_01_142253_create_tasks_table', 2),
-(15, '2024_04_01_142326_create_assignments_table', 2);
+CREATE TABLE `notifications` (
+  `id` char(36) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `notifiable_type` varchar(255) NOT NULL,
+  `notifiable_id` bigint(20) UNSIGNED NOT NULL,
+  `data` text NOT NULL,
+  `read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -135,22 +142,6 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product`
---
-
-CREATE TABLE `product` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `description` text NOT NULL,
-  `price` int(11) NOT NULL,
-  `test` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `projects`
 --
 
@@ -158,7 +149,11 @@ CREATE TABLE `projects` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `created_by` text NOT NULL,
+  `status` text DEFAULT NULL,
+  `collaborators` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`collaborators`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -173,6 +168,28 @@ CREATE TABLE `tasks` (
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `template_docs`
+--
+
+CREATE TABLE `template_docs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `project_id` bigint(20) UNSIGNED NOT NULL,
+  `template` varchar(255) DEFAULT NULL,
+  `verification` text DEFAULT NULL,
+  `status` text DEFAULT NULL,
+  `data1` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`data1`)),
+  `data2` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`data2`)),
+  `data3` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`data3`)),
+  `data4` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`data4`)),
+  `data5` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`data5`)),
+  `version` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -197,6 +214,18 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `role`, `position`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'default', 'default@default.com', NULL, 'default', -1, NULL, NULL, '2024-04-09 04:50:56', '2024-04-09 05:41:00'),
+(2, 'user1', 'user1@gmail.com', NULL, '$2y$10$ogU.xu343gxjERtcCot/MOPRpUaiNIn4z36/o/fs0LNG91By50EZC', 1, NULL, NULL, '2024-04-09 04:55:05', '2024-04-09 04:55:05'),
+(5, 'director', 'director@gmail.com', NULL, '$2y$10$HYJyvMOHcttV29rGJfNCBOhvwblA/Boq26ZRoeuocjQIumIQY764i', 0, NULL, NULL, '2024-04-09 07:25:54', '2024-04-09 07:25:54'),
+(6, 'director2', 'director2@gmail.com', NULL, '$2y$10$ZYq.7eFZAB8hzJYCUIVN8O68PU7XXysZPFxvBkT482cXbMJuOgmq6', 0, NULL, NULL, '2024-05-30 02:56:16', '2024-05-30 02:56:16'),
+(7, 'user2', 'user2@gmail.com', NULL, '$2y$10$cL31W3HDwAKNwZXGFyxxX.1rwstPrjypkocw/eS751Ty6JEizYoje', 1, NULL, NULL, '2024-05-30 04:11:05', '2024-05-30 04:11:05'),
+(8, 'tda', 'tda@gmail.com', NULL, '$2y$10$AfuKaZUhmy6Tq0/4OC17w.LOiAwZY2.agK.v5Aq1Clevv8OqRzDli', 2, NULL, NULL, '2024-06-01 02:54:20', '2024-06-01 02:54:20');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -208,12 +237,12 @@ ALTER TABLE `admins`
   ADD UNIQUE KEY `admins_email_unique` (`email`);
 
 --
--- Indexes for table `assignments`
+-- Indexes for table `documents`
 --
-ALTER TABLE `assignments`
+ALTER TABLE `documents`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `assignments_task_id_foreign` (`task_id`),
-  ADD KEY `assignments_user_id_foreign` (`user_id`);
+  ADD KEY `documents_project_id_foreign` (`project_id`),
+  ADD KEY `documents_task_id_foreign` (`task_id`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -227,6 +256,13 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `notifications_notifiable_type_notifiable_id_index` (`notifiable_type`,`notifiable_id`);
 
 --
 -- Indexes for table `password_reset_tokens`
@@ -243,16 +279,11 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
--- Indexes for table `product`
---
-ALTER TABLE `product`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `projects`
 --
 ALTER TABLE `projects`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `projects_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `tasks`
@@ -261,6 +292,13 @@ ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tasks_project_id_foreign` (`project_id`),
   ADD KEY `tasks_user_id_foreign` (`user_id`);
+
+--
+-- Indexes for table `template_docs`
+--
+ALTER TABLE `template_docs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `template_docs_project_id_foreign` (`project_id`);
 
 --
 -- Indexes for table `users`
@@ -277,12 +315,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `assignments`
+-- AUTO_INCREMENT for table `documents`
 --
-ALTER TABLE `assignments`
+ALTER TABLE `documents`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -295,18 +333,12 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `product`
---
-ALTER TABLE `product`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -322,21 +354,33 @@ ALTER TABLE `tasks`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `template_docs`
+--
+ALTER TABLE `template_docs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `assignments`
+-- Constraints for table `documents`
 --
-ALTER TABLE `assignments`
-  ADD CONSTRAINT `assignments_task_id_foreign` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `assignments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+ALTER TABLE `documents`
+  ADD CONSTRAINT `documents_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `documents_task_id_foreign` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `projects`
+--
+ALTER TABLE `projects`
+  ADD CONSTRAINT `projects_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tasks`
@@ -344,6 +388,12 @@ ALTER TABLE `assignments`
 ALTER TABLE `tasks`
   ADD CONSTRAINT `tasks_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `tasks_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `template_docs`
+--
+ALTER TABLE `template_docs`
+  ADD CONSTRAINT `template_docs_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
