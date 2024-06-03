@@ -43,13 +43,13 @@ class DocumentController extends Controller
      */
     public function printAndDownloadTemplate(Request $request, Project $project, TemplateDocument $template_doc)
     {
-        $kertas_kerja = new \PhpOffice\PhpWord\TemplateProcessor('images/KK3-template.docx');
+        $kertas_kerja = new \PhpOffice\PhpWord\TemplateProcessor('images_assets/KK3-template.docx');
         $documentPath = 'projects/' . $project->created_by . '/p_' . $project->name . '/t_main';
         $fileName = $project->name . '-KK3-(' . $template_doc->verification . '-' . $template_doc->status . ').docx';
         $storedPath = $documentPath . '/' . $fileName;
 
         // Always generate and save the file
-        $kertas_kerja = new \PhpOffice\PhpWord\TemplateProcessor('images/KK3-template.docx');
+        $kertas_kerja = new \PhpOffice\PhpWord\TemplateProcessor('images_assets/KK3-template.docx');
 
         $templateContent = TemplateDocument::where('id', $template_doc->id)->firstOrFail();
         $data1 = $templateContent->data1;
