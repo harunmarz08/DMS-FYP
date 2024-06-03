@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-// use ZipArchive;
+use ZipArchive;
 
 class DocumentController extends Controller
 {
@@ -92,7 +92,7 @@ class DocumentController extends Controller
         }
 
         // Temporary file path to store the generated document
-        $temporaryFilePath = storage_path('app/' . $fileName);
+        $temporaryFilePath = storage_path('app/public/' . $fileName);
         $kertas_kerja->saveAs($temporaryFilePath);
 
         // Ensure the document path exists
