@@ -9,7 +9,7 @@
             </x-nav-link2>
         </h2>
     </x-slot>
-    <div>admin create user</div>
+    <div></div>
     <section>
         {{-- <div class="flex justify-center">
             <div class="flex-col">
