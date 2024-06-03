@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-use ZipArchive;
+// use ZipArchive;
 
 class DocumentController extends Controller
 {
@@ -49,7 +49,6 @@ class DocumentController extends Controller
         $storedPath = $documentPath . '/' . $fileName;
 
         // Always generate and save the file
-        $kertas_kerja = new \PhpOffice\PhpWord\TemplateProcessor('images_assets/KK3-template.docx');
 
         $templateContent = TemplateDocument::where('id', $template_doc->id)->firstOrFail();
         $data1 = $templateContent->data1;
@@ -113,94 +112,94 @@ class DocumentController extends Controller
     /**
      * Download resource from storage.
      */
-    public function compile(Request $request, Project $project)
-    {
+    // public function compile(Request $request, Project $project)
+    // {
 
-        // Zip 1 File
+    //     // Zip 1 File
 
-        // $documentPath = 'projects/test1/version1';
-        // $fileName = 'KK3-test.docx';
+    //     // $documentPath = 'projects/test1/version1';
+    //     // $fileName = 'KK3-test.docx';
 
-        // if (Storage::exists($documentPath . '/' . $fileName)) {
-        //     // Create a new ZipArchive instance
-        //     $zip = new ZipArchive;
-        //     // Create a temporary file to store the zip archive
-        //     $zipFilePath = tempnam(sys_get_temp_dir(), 'KK3-test') . '.zip';
-        //     if ($zip->open($zipFilePath, ZipArchive::CREATE) === true) {
-        //         // Get the content of the file
-        //         $fileContent = Storage::get($documentPath . '/' . $fileName);
-        //         // Add the file content to the zip archive
-        //         $zip->addFromString($fileName, $fileContent);
-        //         // Close the zip archive
-        //         $zip->close();
+    //     // if (Storage::exists($documentPath . '/' . $fileName)) {
+    //     //     // Create a new ZipArchive instance
+    //     //     $zip = new ZipArchive;
+    //     //     // Create a temporary file to store the zip archive
+    //     //     $zipFilePath = tempnam(sys_get_temp_dir(), 'KK3-test') . '.zip';
+    //     //     if ($zip->open($zipFilePath, ZipArchive::CREATE) === true) {
+    //     //         // Get the content of the file
+    //     //         $fileContent = Storage::get($documentPath . '/' . $fileName);
+    //     //         // Add the file content to the zip archive
+    //     //         $zip->addFromString($fileName, $fileContent);
+    //     //         // Close the zip archive
+    //     //         $zip->close();
 
-        //         // Send the zip archive as a response with the appropriate headers
-        //         return response()->download($zipFilePath)->deleteFileAfterSend(true);
-        //     } else {
-        //         // If unable to create the zip archive, return an error message
-        //         return response()->json(['error' => 'Failed to create zip archive'], 500);
-        //     }
-        // } else {
-        //     // If the file does not exist, return an error message or redirect to a page accordingly
-        //     return response()->json(['error' => 'File not found'], 404);
-        // }
+    //     //         // Send the zip archive as a response with the appropriate headers
+    //     //         return response()->download($zipFilePath)->deleteFileAfterSend(true);
+    //     //     } else {
+    //     //         // If unable to create the zip archive, return an error message
+    //     //         return response()->json(['error' => 'Failed to create zip archive'], 500);
+    //     //     }
+    //     // } else {
+    //     //     // If the file does not exist, return an error message or redirect to a page accordingly
+    //     //     return response()->json(['error' => 'File not found'], 404);
+    //     // }
 
-        // Zip All File and Folder 
+    //     // Zip All File and Folder 
 
-        $documentPath = 'projects/' . $project->created_by . '/p_' . $project->name;
-        $zipFileName = 'version1.zip';
+    //     $documentPath = 'projects/' . $project->created_by . '/p_' . $project->name;
+    //     $zipFileName = 'version1.zip';
 
-        if (Storage::exists($documentPath)) {
-            // Create a new ZipArchive instance
-            $zip = new ZipArchive;
-            // Create a temporary file to store the zip archive
-            $zipFilePath = tempnam(sys_get_temp_dir(), 'version1') . '.zip';
+    //     if (Storage::exists($documentPath)) {
+    //         // Create a new ZipArchive instance
+    //         $zip = new ZipArchive;
+    //         // Create a temporary file to store the zip archive
+    //         $zipFilePath = tempnam(sys_get_temp_dir(), 'version1') . '.zip';
 
-            if ($zip->open($zipFilePath, ZipArchive::CREATE) === true) {
-                // Add all files and folders within the 'version1' directory to the zip archive
-                $this->addFilesToZip($zip, $documentPath, $documentPath);
-                // Close the zip archive
-                $zip->close();
+    //         if ($zip->open($zipFilePath, ZipArchive::CREATE) === true) {
+    //             // Add all files and folders within the 'version1' directory to the zip archive
+    //             $this->addFilesToZip($zip, $documentPath, $documentPath);
+    //             // Close the zip archive
+    //             $zip->close();
 
-                // Send the zip archive as a response with the appropriate headers
-                return response()->download($zipFilePath, $zipFileName)->deleteFileAfterSend(true);
-            } else {
-                // If unable to create the zip archive, return an error message
-                return response()->json(['error' => 'Failed to create zip archive'], 500);
-            }
-        } else {
-            // If the directory does not exist, return an error message or redirect to a page accordingly
-            return response()->json(['error' => 'Directory not found'], 404);
-        }
-    }
+    //             // Send the zip archive as a response with the appropriate headers
+    //             return response()->download($zipFilePath, $zipFileName)->deleteFileAfterSend(true);
+    //         } else {
+    //             // If unable to create the zip archive, return an error message
+    //             return response()->json(['error' => 'Failed to create zip archive'], 500);
+    //         }
+    //     } else {
+    //         // If the directory does not exist, return an error message or redirect to a page accordingly
+    //         return response()->json(['error' => 'Directory not found'], 404);
+    //     }
+    // }
 
-    public function downloadTemplateFile(Request $request)
-    {
-        // Individual File Download 
-        $documentPath = '';
-        $fileName = '';
-        if (Storage::exists($documentPath . '/' . $fileName)) {
-            // Get the file content
-            return Storage::download($documentPath . '/' . $fileName);
-        } else {
-            // If the file does not exist, return an error message or redirect to a page accordingly
-            return response()->json(['error' => 'File not found'], 404);
-        }
-    }
+    // public function downloadTemplateFile(Request $request)
+    // {
+    //     // Individual File Download 
+    //     $documentPath = '';
+    //     $fileName = '';
+    //     if (Storage::exists($documentPath . '/' . $fileName)) {
+    //         // Get the file content
+    //         return Storage::download($documentPath . '/' . $fileName);
+    //     } else {
+    //         // If the file does not exist, return an error message or redirect to a page accordingly
+    //         return response()->json(['error' => 'File not found'], 404);
+    //     }
+    // }
 
-    private function addFilesToZip($zip, $folderPath, $baseFolder)
-    {
-        $files = Storage::files($folderPath);
-        foreach ($files as $file) {
-            $relativePath = substr($file, strlen($baseFolder) + 1);
-            $zip->addFile(Storage::path($file), $relativePath);
-        }
+    // private function addFilesToZip($zip, $folderPath, $baseFolder)
+    // {
+    //     $files = Storage::files($folderPath);
+    //     foreach ($files as $file) {
+    //         $relativePath = substr($file, strlen($baseFolder) + 1);
+    //         $zip->addFile(Storage::path($file), $relativePath);
+    //     }
 
-        $subFolders = Storage::directories($folderPath);
-        foreach ($subFolders as $subFolder) {
-            $this->addFilesToZip($zip, $subFolder, $baseFolder);
-        }
-    }
+    //     $subFolders = Storage::directories($folderPath);
+    //     foreach ($subFolders as $subFolder) {
+    //         $this->addFilesToZip($zip, $subFolder, $baseFolder);
+    //     }
+    // }
 
     /**
      * save content-Main to be printed in document in the database

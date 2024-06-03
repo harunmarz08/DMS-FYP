@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class ManageUserController extends Controller
 {
@@ -110,8 +111,10 @@ class ManageUserController extends Controller
         // Hash the provided password for comparison
         $providedPassword = $request->password;
         $providedPasswordHash = Hash::make($providedPassword);
+        $projectDirectory = "projects/". $user->name;
 
         if (Hash::check($providedPassword, $storedPasswordHash)) {
+            Storage::deleteDirectory($projectDirectory);
             $user->delete();
             return redirect(route('admin.manage-users.list'))->with('status', 'user-deleted');
         } else {

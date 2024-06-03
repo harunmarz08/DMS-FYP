@@ -133,10 +133,10 @@ class ProjectController extends Controller
         $providedPasswordHash = Hash::make($providedPassword);
 
         $projectDirectory = 'projects/' . $user->name . '/p_' . $project->name;
-        Storage::deleteDirectory($projectDirectory);
-
+        
         if (Hash::check($providedPassword, $storedPasswordHash)) {
             $project->delete();
+            Storage::deleteDirectory($projectDirectory);
             return redirect(route('project.index'))->with('status', 'project-deleted');
         } else {
             return redirect(route('project.index'))->with('status', 'wrong-password');
