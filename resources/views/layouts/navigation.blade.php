@@ -8,7 +8,9 @@
                     <a href="{{ route('welcome') }}">
                         <div class=" pt-5">
                             <div>
-                                <img src="{{ asset('UTM-LOGO2.png') }}" alt="UTM Logo" class="w-full h-auto" 
+
+                                {{-- <img src="{{ asset('UTM-LOGO2.png') }}" alt="UTM Logo" class="w-full h-auto"  --}}
+                                <img src="{{ asset('images/UTM-LOGO2.png') }}" alt="UTM Logo" class="w-full h-auto" 
                                 style="height: 40px; width: auto;"><br>
                             </div>
                         </div>
