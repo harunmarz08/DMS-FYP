@@ -45,7 +45,7 @@ class DocumentController extends Controller
     {
         $kertas_kerja = new \PhpOffice\PhpWord\TemplateProcessor('images_assets/KK3-template.docx');
         $documentPath = 'projects/' . $project->created_by . '/p_' . $project->name . '/t_main';
-        $fileName = $project->name . '-KK3-(' . $template_doc->verification . '-' . $template_doc->status . ').docx';
+        $fileName = $project->name . ' KK3 (' . $template_doc->verification . ',' . $template_doc->status . ').docx';
         $storedPath = $documentPath . '/' . $fileName;
 
         // Always generate and save the file
@@ -75,7 +75,7 @@ class DocumentController extends Controller
                 $kertas_kerja->cloneBlock('it18ex', $clone1, true, true);
                 for ($i = 0; $i < $clone1; $i++) {
                     $value = $data3['it18_ex'][$i] ?? null; // Use null if the key does not exist
-                    $kertas_kerja->setValue('it18_ex#' . ($i + 1), $value);
+                    $kertas_kerja->setValue('it18_ex#' . ($i+1), $value);
                 }
             }
         }
@@ -86,13 +86,13 @@ class DocumentController extends Controller
                 $kertas_kerja->cloneBlock('itexcelextra', $clone2, true, true);
                 for ($i = 0; $i < $clone2; $i++) {
                     $value = $data5['it_excelex'][$i] ?? null; // Use null if the key does not exist
-                    $kertas_kerja->setValue('it_excelex#' . ($i + 1), $value);
+                    $kertas_kerja->setValue('it_excelex#' . ($i+1), $value);
                 }
             }
         }
 
         // Temporary file path to store the generated document
-        $temporaryFilePath = storage_path('app/public/' . $fileName);
+        $temporaryFilePath = storage_path($fileName);
         $kertas_kerja->saveAs($temporaryFilePath);
 
         // Ensure the document path exists
@@ -103,22 +103,10 @@ class DocumentController extends Controller
         // Move the file to the desired directory, replacing the existing one if it exists
         Storage::putFileAs($documentPath, new \Illuminate\Http\File($temporaryFilePath), $fileName);
 
-        // Create a zip archive and add the generated document
-        $zip = new ZipArchive;
-        $zipFilePath = storage_path('app/public/' . $project->name . '-KK3.zip');
-        if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
-            $zip->addFile($temporaryFilePath, $fileName);
-            $zip->close();
+        // Delete the temporary file
+        unlink($temporaryFilePath);
 
-            // Delete the temporary file
-            unlink($temporaryFilePath);
-
-            // Return the zip archive for downloading
-            return response()->download($zipFilePath)->deleteFileAfterSend(true);
-        } else {
-            // Handle the case where zip creation fails
-            return response()->json(['error' => 'Failed to create zip archive'], 500);
-        }
+        return Storage::download($storedPath);
     }
 
     /**
