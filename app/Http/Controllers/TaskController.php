@@ -105,9 +105,21 @@ class TaskController extends Controller
 
             //Notify
             $senderId = auth()->id();
-            // Adjust the query to exclude the sender's ID
-            $users = User::where('id', '!=', $senderId)->get();
-            // Send the notification to the selected users
+            // Retrieve project collaborators
+            $collaborators = $project->collaborators; // Assuming $project->collaborators is already an array of users with their details
+
+            $users = collect($collaborators)->filter(function ($collaborator) use ($senderId) {
+                return $collaborator['id'] != $senderId;
+            })->pluck('id')->toArray(); // Get the list of IDs
+            
+            // Add the project owner to the list if the sender is not the project owner
+            if ($project->user_id != $senderId) {
+                $users[] = $project->user_id;
+            }
+            
+            // Retrieve the user instances from the database
+            $users = User::whereIn('id', $users)->get();
+            
             Notification::send($users, new NewTaskUpload($task, $project));
 
             return redirect()->route('project.tasks.index', ['project' => $project])->with('status', 'file_uploaded');
@@ -234,8 +246,8 @@ class TaskController extends Controller
             "cover", "nama_program",
             "nama1", "nama2", "nama3",
             "jawatan1", "jawatan2", "jawatan3",
-            "c_pp_name","c_pp_jawatan", "c_pp_off", "c_pp_ph", "c_pp_mail",
-            "c_dk_name","c_dk_jawatan", "c_dk_off", "c_dk_ph", "c_dk_mail",
+            "c_pp_name", "c_pp_jawatan", "c_pp_off", "c_pp_ph", "c_pp_mail",
+            "c_dk_name", "c_dk_jawatan", "c_dk_off", "c_dk_ph", "c_dk_mail",
         ];
     }
 

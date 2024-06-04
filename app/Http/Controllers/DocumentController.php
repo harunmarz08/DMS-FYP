@@ -91,6 +91,26 @@ class DocumentController extends Controller
             }
         }
 
+        // Zip the file instead of download docx
+        // Move the file to the desired directory, replacing the existing one if it exists
+        // Storage::putFileAs($documentPath, new \Illuminate\Http\File($temporaryFilePath), $fileName);
+
+        // // Create a zip archive and add the generated document
+        // $zip = new ZipArchive;
+        // $zipFilePath = storage_path('app/public/' . $project->name . '-KK3.zip');
+        // if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+        //     $zip->addFile($temporaryFilePath, $fileName);
+        //     $zip->close();
+
+        //     // Delete the temporary file
+        //     unlink($temporaryFilePath);
+
+        //     // Return the zip archive for downloading
+        //     return response()->download($zipFilePath)->deleteFileAfterSend(true);
+        // } else {
+        //     // Handle the case where zip creation fails
+        //     return response()->json(['error' => 'Failed to create zip archive'], 500);
+        // }
         // Temporary file path to store the generated document
         $temporaryFilePath = storage_path($fileName);
         $kertas_kerja->saveAs($temporaryFilePath);
@@ -108,6 +128,7 @@ class DocumentController extends Controller
 
         return Storage::download($storedPath);
     }
+
 
     /**
      * Download resource from storage.
