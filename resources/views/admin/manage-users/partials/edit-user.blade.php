@@ -13,34 +13,16 @@
 
     <div class="pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-            <div>
-                @if ($errors->any())
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                @endif
-            </div>
-
-            {{-- @if (session('status') === 'user-updated')
-                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-800 bg-green-400 border border-green-400 rounded-md p-2">
-                    {{ __('Saved.') }}</p>
-            @endif --}}
-
             <form action="{{ route('admin.manage-users.update', ['user' => $user]) }}" method="post">
                 @csrf
                 @method('patch')
-
+                <!-- Name -->
                 <div>
                     <x-input-label for="name" :value="__('Name')" />
                     <x-text-input id="name" class="block mt-1 w-auto" type="text" name="name"
                         :value="old('name')" required autofocus autocomplete="off" value="{{ $user->name }}" />
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
-
                 <!-- Email Address -->
                 <div class="mt-4">
                     <x-input-label for="email" :value="__('Email')" />
@@ -48,7 +30,6 @@
                         :value="old('email')" required autocomplete="off" value="{{ $user->email }}" />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
-
                 <!-- Password -->
                 <div class="mt-4">
                     <x-input-label for="password" :value="__('Password')" />
@@ -56,14 +37,11 @@
                         autocomplete="off" placeholder="Optional"/>
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
-
                 <!-- Confirm Password -->
                 <div class="mt-4">
                     <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
                     <x-text-input id="password_confirmation" class="block mt-1 w-auto" type="password"
                         name="password_confirmation"  autocomplete="off" placeholder="Re-enter password"/>
-
                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 </div>
                 <div class="mt-4 flex items-center gap-4">

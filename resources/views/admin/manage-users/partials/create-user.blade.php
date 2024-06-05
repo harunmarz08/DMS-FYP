@@ -38,7 +38,6 @@
                         <form method="POST" action="{{ route('admin.manage-users.store-user')}}">
                             @csrf
                             @method('post')
-
                             <!-- Name -->
                             <div>
                                 <x-input-label for="name" :value="__('Name')" />
@@ -46,7 +45,6 @@
                                     :value="old('name')" required autofocus autocomplete="off" />
                                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
                             </div>
-
                             <!-- Email Address -->
                             <div class="mt-4">
                                 <x-input-label for="email" :value="__('Email')" />
@@ -54,7 +52,6 @@
                                     :value="old('email')" required autocomplete="off" />
                                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
                             </div>
-
                             <!-- Password -->
                             <div class="mt-4">
                                 <x-input-label for="password" :value="__('Password')" />
@@ -62,28 +59,23 @@
                                     required autocomplete="off" />
                                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
                             </div>
-
                             <!-- Confirm Password -->
                             <div class="mt-4">
                                 <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
                                 <x-text-input id="password_confirmation" class="block mt-1 w-auto" type="password"
                                     name="password_confirmation" required autocomplete="off" />
-
                                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                             </div>
-
-                            <!-- Selection -->
-                            <div class="mt-4">
-                                 
+                            <!-- Role -->
+                            <div class="mt-4">  
                                 <x-input-label for="role" :value="__('Role')" />
-
                                 <select name="role" class="block mt-1 w-auto">
                                     <option value="default">-- Select a role --</option>
                                     <option value="0">Director</option>
                                     <option value="1">User</option>
                                     <option value="2">TDA</option>
                                 </select>
+                                <x-input-error :messages="$errors->get('role')" class="mt-2" />
                             </div>
                             <div class="flex items-center justify-end mt-4">
                                 <x-primary-button class="ms-4">

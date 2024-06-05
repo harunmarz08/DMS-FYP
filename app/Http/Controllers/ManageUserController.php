@@ -22,7 +22,6 @@ class ManageUserController extends Controller
      */
     public function index()
     {
-
         $users = User::all();
         return view('admin.manage-users.list', ['users' => $users]);
     }
@@ -62,10 +61,10 @@ class ManageUserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
-    {
-        //
-    }
+    // public function show(User $user)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -82,7 +81,8 @@ class ManageUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 
+            Rule::unique(User::class)->ignore($user->id)],
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
         ]);
 

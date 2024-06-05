@@ -32,21 +32,15 @@
 
     <div class="pb-12">
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 ">
-            {{-- <div class="grid grid-cols-1 sm:grid-cols-2 gap-6"> --}}
             <div class="py-2 flex justify-between">
                 <div class="py-2 ">
-                    {{-- <form action="#" method="post" class="flex items-center">
-                        <x-text-input id="search" class="block w-auto" type="text" name="search" autofocus
-                            autocomplete="off" placeholder="Search" />
-                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                        <x-button-link class="py-3">Search</x-button-link>
-                    </form> --}}
                 </div>
-
+                {{-- Add user --}}
                 <div class="py-2">
                     <x-button-link :href="route('admin.manage-users.partials.create-user')">Add User</x-button-link>
                 </div>
             </div>
+                            {{-- User list --}}
             <div class="flex justify-center overflow-x-auto">
                 <x-table.table :headers="[
                     'ID',
@@ -66,13 +60,16 @@
                             </x-table.td>
                             <x-table.td align="right">{{ $user->created_at }}</x-table.td>
                             <x-table.td align="right">{{ $user->updated_at }}</x-table.td>
+                            {{-- Edit User --}}
                             <x-table.td align="center">
                                 @if ($user->role !== -1)
-                                    <x-button-link :href="route('admin.manage-users.partials.edit-user', ['user' => $user])" :active="request()->routeIs('admin.manage-user.partials.edit-user')">
+                                    <x-button-link :href="route('admin.manage-users.partials.edit-user', ['user' => $user])" 
+                                        :active="request()->routeIs('admin.manage-user.partials.edit-user')">
                                         Edit
                                     </x-button-link>
                                 @endif
                             </x-table.td>
+                            {{-- Delete User --}}
                             <x-table.td align="center">
                                 @if ($user->role !== -1)
                                     <x-danger-button x-data=""

@@ -37,6 +37,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
     Route::patch('/admin/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
     Route::delete('/admin/profile', [ProfileController::class, 'destroy'])->name('admin.profile.destroy');
+    
     // Manage User
     Route::get('/admin/manage-users', [ManageUserController::class, 'index'])->name('admin.manage-users.list');
     Route::get('/admin/manage-users/edit-user-{user}', [ManageUserController::class, 'edit'])->name('admin.manage-users.partials.edit-user');
