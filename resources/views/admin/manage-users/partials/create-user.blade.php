@@ -11,17 +11,6 @@
     </x-slot>
     <div></div>
     <section>
-        {{-- <div class="flex justify-center">
-            <div class="flex-col">
-                <div class="p-4  border border-white">1</div>
-                <div class="p-4  border border-white">2</div>
-            </div>
-            <div class="flex-col">
-                <div class="p-4  border border-white">1</div>
-                <div class="p-4  border border-white">2</div>
-            </div>
-
-        </div> --}}
         <div class="pb-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg ">
