@@ -142,4 +142,15 @@ class ProjectController extends Controller
             return redirect(route('project.index'))->with('status', 'wrong-password');
         }
     }
+
+    /**
+     * Display on dashboard
+     */
+    public function dashboard()
+    {
+        // Get the authenticated user's projects with template documents
+        $projects = Project::with('latestTemplateDocument')->get();
+        Session::forget(['tasks', 'users', 'documents']);
+        return view('dashboard', ['projects' => $projects]);
+    }
 }

@@ -18,10 +18,15 @@ class Project extends Model
         return $this->hasMany(Task::class);
     }
     
-    // public function assignments()
-    // {
-    //     return $this->hasMany(Assignment::class);
-    // }
+    public function templateDocuments()
+    {
+        return $this->hasMany(TemplateDocument::class);
+    }
+
+    public function latestTemplateDocument()
+    {
+        return $this->hasOne(TemplateDocument::class)->latest();
+    }
 
     public function collaborators()
     {
