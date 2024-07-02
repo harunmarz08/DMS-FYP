@@ -83,9 +83,9 @@ Route::middleware('auth')->group(function () {
     // Template Document
     Route::get('/project/{project}/doc/KK3-{type?}/{template_doc}', [DocumentController::class, 'index'])->name('project.template.KK3');
     Route::get('/project/{project}/{template_doc}/print-and-download', [DocumentController::class, 'printAndDownloadTemplate'])->name('project.template.print-download');
-    Route::post('/project/{project}/saving-draft-main', [DocumentController::class, 'saveDraftMain'])->name('project.template.save-draft-main');
-    Route::post('/project/{project}/saving-draft-cover', [DocumentController::class, 'saveDraftCover'])->name('project.template.save-draft-cover');
-    Route::post('/project/{project}/saving-draft-excel', [DocumentController::class, 'saveDraftExcel'])->name('project.template.save-draft-excel');
+    Route::post('/project/{project}/{template_doc}/saving-draft-main', [DocumentController::class, 'saveDraftMain'])->name('project.template.save-draft-main');
+    Route::post('/project/{project}/{template_doc}/saving-draft-cover', [DocumentController::class, 'saveDraftCover'])->name('project.template.save-draft-cover');
+    Route::post('/project/{project}/{template_doc}/saving-draft-excel', [DocumentController::class, 'saveDraftExcel'])->name('project.template.save-draft-excel');
     Route::get('/project/{project}/doc/compile-download', [DocumentController::class, 'compile'])->name('doc.compile');
     Route::put('/project/{project}/{templateId}/verification-update', [DocumentController::class, 'verificationUpdate'])->name('project.template.verification-update');
     Route::put('/project/{project}/{templateId}/status-update', [DocumentController::class, 'statusUpdate'])->name('project.template.status-update');

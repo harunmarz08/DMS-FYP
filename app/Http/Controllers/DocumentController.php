@@ -17,9 +17,10 @@ class DocumentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Project $project, $type = 'main')
+    public function index(Project $project, $type = 'main', TemplateDocument $template_doc)
     {
-        $template_contents = TemplateDocument::where('project_id', $project->id)->first();
+
+        $template_contents = TemplateDocument::where('project_id', $project->id)->where('id', $template_doc->id)->first();
         Session::put('template_contents', $template_contents);
         $template_contents = Session::get('template_contents');
         // dd($template_contents);
@@ -225,16 +226,15 @@ class DocumentController extends Controller
     /**
      * save content-Main to be printed in document in the database
      */
-    public function saveDraftCover(Request $request, Project $project)
+    public function saveDraftCover(Request $request, Project $project,TemplateDocument $template_doc)
     {
         $fields = $this->getData1Keys();
         // Validate the fields
         $data1 = $request->validate(array_fill_keys($fields, 'nullable|string'));
-        // dd($data1);
 
         try {
             $template_contents = TemplateDocument::updateOrCreate(
-                ['project_id' => $project->id],
+                ['id' => $template_doc->id, 'project_id' => $project->id],
                 ['data1' => $data1]
             );
 
@@ -255,11 +255,10 @@ class DocumentController extends Controller
     /**
      * save content-Main to be printed in document in the database
      */
-    public function saveDraftMain(Request $request, Project $project)
+    public function saveDraftMain(Request $request, Project $project,TemplateDocument $template_doc)
     {
         $fields = $this->getData2Keys();
         $data2 = $request->validate(array_fill_keys($fields, 'nullable|string'));
-
         $validatedData3 = $request->validate([
             'it18_ex.*' => 'nullable|string',
         ]);
@@ -268,10 +267,9 @@ class DocumentController extends Controller
         $data3 = $this->getDefaultData3();
         $data3['it18_ex'] = $validatedData3['it18_ex'] ?? [];
 
-        // dd($data3);
         try {
             $template_contents = TemplateDocument::updateOrCreate(
-                ['project_id' => $project->id],
+                ['id' => $template_doc->id, 'project_id' => $project->id],
                 ['data2' => $data2, 'data3' => $data3]
             );
 
@@ -287,14 +285,12 @@ class DocumentController extends Controller
                 'statusDraft' => 'Unsuccessful'
             ]);
         }
-        // dd($templateDocument);
     }
 
-    public function saveDraftExcel(Request $request, Project $project)
+    public function saveDraftExcel(Request $request, Project $project, TemplateDocument $template_doc)
     {
         $fields = $this->getData4Keys();
         $data4 = $request->validate(array_fill_keys($fields, 'nullable|string'));
-
         $validatedData5 = $request->validate([
             'it_excelex.*' => 'nullable|string',
         ]);
@@ -302,11 +298,9 @@ class DocumentController extends Controller
         $data5 = $this->getDefaultData5();
         $data5['it_excelex'] = $validatedData5['it_excelex'] ?? [];
 
-        // dd($data5);
-
         try {
             $template_contents = TemplateDocument::updateOrCreate(
-                ['project_id' => $project->id],
+                ['id' => $template_doc->id, 'project_id' => $project->id],
                 ['data4' => $data4, 'data5' => $data5]
             );
 

@@ -51,7 +51,7 @@
                 </div>
                 <div class="bg-white overflow-y-auto overflow-x-hidden shadow-sm sm:rounded-lg" style="max-height: 500px;">
                     <div class="p-6 text-gray-900 ">
-
+                        <h3 class="text-lg font-semibold mt-4">Notifications</h3>
                         @foreach (auth()->user()->notifications as $notification)
                             <!-- Display notification data -->
 

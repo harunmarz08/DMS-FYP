@@ -28,7 +28,7 @@ class TaskController extends Controller
         $project_status->update(['status' => 'On-going']);
 
         $tasks = Task::where('project_id', $project->id)->with('documents')->get();
-        $template_docs = TemplateDocument::where('project_id', $project->id)->get();
+        $template_docs = TemplateDocument::where('project_id', $project->id)->get()->sortBy('created_at');
         $users = User::where('role', '1')->get();
         // $documents = Document::where('task_id', $tasks->id)->get();
         $documents = Document::whereIn('task_id', $tasks->pluck('id'))->get();

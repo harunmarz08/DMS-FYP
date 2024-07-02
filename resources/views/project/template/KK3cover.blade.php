@@ -226,7 +226,7 @@
                                     @if(auth()->user()->role != 2)
                                         <div class="flex justify-end py-4">
                                             <x-secondary-button id="save-draft" color="black"
-                                                onclick="submitForm('{{ route('project.template.save-draft-cover', ['project' => $project]) }}')"
+                                                onclick="submitForm('{{ route('project.template.save-draft-cover', ['project' => $project, 'template_doc' => $template_contents]) }}')"
                                                 class="mx-1">
                                                 Save Draft
                                             </x-secondary-button>
