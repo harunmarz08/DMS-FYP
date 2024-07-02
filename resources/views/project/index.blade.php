@@ -100,7 +100,7 @@
                         </div>
 
                         <div class="flex flex-row justify-end">
-                            @if ($project->user_id == auth()->user()->id && $project->created_by == auth()->user()->name)
+                            @if ($project->user_id == auth()->user()->id)
                                 {{-- Collaborators --}}
                                 <div class="p-3" name="add-collaborator-to-project-{{ $project->id }}">
                                     <a href="{{ route('project.show-add-collaborators-form', $project) }}"
